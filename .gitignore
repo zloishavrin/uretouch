@@ -1,0 +1,11 @@
+/.env
+/.DS_Store
+/client/node_modules/
+/client/build/
+/client/.DS_Store
+/client/package-lock.json
+/backend/node_modules/
+/backend/public/*
+/backend/.DS_Store
+/client/package-lock.json
+/certs/

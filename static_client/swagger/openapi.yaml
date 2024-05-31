@@ -1,0 +1,151 @@
+openapi: 3.0.0
+info:
+  title: U-Retouch API
+  version: 1.0.0
+  description: API платформы
+servers:
+  - url: http://localhost:3001/api
+    description: Адрес сервера
+
+paths:
+  /auth/registration:
+    post:
+      summary: Регистрация пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  example: "exampleLogin"
+                email:
+                  type: string
+                  example: "example@example.com"
+                password:
+                  type: string
+                  example: "examplePassword"
+      responses:
+        '200':
+          description: Пользователь успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Ошибка валидации
+  /auth/login:
+    post:
+      summary: Вход пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  example: "exampleLogin"
+                password:
+                  type: string
+                  example: "examplePassword"
+      responses:
+        '200':
+          description: Успешный вход
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Ошибка валидации
+
+  /auth/logout:
+    post:
+      summary: Выход пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  example: "exampleRefreshToken"
+      responses:
+        '200':
+          description: Успешный выход
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Успешный выход"
+
+  /auth/refresh:
+    get:
+      summary: Обновление токена
+      parameters:
+        - in: query
+          name: refreshToken
+          schema:
+            type: string
+            example: "exampleRefreshToken"
+          required: true
+      responses:
+        '200':
+          description: Успешное обновление токена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Неавторизован
+
+  /auth/activate/{link}:
+    get:
+      summary: Активация аккаунта пользователя
+      parameters:
+        - in: path
+          name: link
+          schema:
+            type: string
+          required: true
+          description: Ссылка для активации аккаунта
+      responses:
+        '302':
+          description: Редирект на клиентское приложение после активации
+        '400':
+          description: Некорректная ссылка активации
+
+components:
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: "exampleAccessToken"
+        refreshToken:
+          type: string
+          example: "exampleRefreshToken"
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "exampleUserId"
+            email:
+              type: string
+              example: "example@example.com"
+            login:
+              type: string
+              example: "exampleLogin"
+            isActivated:
+              type: boolean
+              example: true
