@@ -25,14 +25,14 @@ module.exports = class ValidateMiddleware {
         };
     }
 
-    static isInRange(field, min, max) {
+    static isInRange(field, fieldName, min, max) {
         return (req, res, next) => {
             const value = req.body[field];
             if (typeof value != 'string') {
-                return next(ApiError.BadRequestError(`${field} не должно быть числом`));
+                return next(ApiError.BadRequestError(`${fieldName} не должно быть числом`));
             }
             if (value.length <  min  || value.length  >  max)  {
-                return next(ApiError.BadRequestError(`Поле ${field} должно быть длиной от ${min} до ${max} символов`));
+                return next(ApiError.BadRequestError(`${fieldName} должен быть длиной от ${min} до ${max} символов`));
             }
             next();
         };

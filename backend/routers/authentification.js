@@ -11,7 +11,7 @@ authentificationRouter.post(
         ['"Почта"', '"Пароль"']
     ),
     ValidateMiddleware.isEmail('email'),
-    ValidateMiddleware.isInRange('password', 6, 32),
+    ValidateMiddleware.isInRange('password', 'Пароль', 6, 32),
     AuthentificationController.registration
 );
 
