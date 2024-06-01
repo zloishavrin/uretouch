@@ -1,5 +1,4 @@
 <resources>
-    <string name="onboarding_title">U-Retouch</string>
     <string name="onboarding_description">Визуализация товара на релевантных фонах</string>
     <string name="onboarding_next">Начать</string>
 </resources>

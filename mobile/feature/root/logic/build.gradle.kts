@@ -15,8 +15,10 @@ kotlin {
             implementation(projects.feature.onboarding.logic)
 
             implementation(projects.data.onboarding)
-            
+            implementation(projects.data.auth)
+
             implementation(projects.domain.onboarding.logic)
+            implementation(projects.domain.auth)
 
             implementation(libs.koin.core)
             implementation(libs.decompose)

@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
 import com.uretouch.common.ui.kit.resources.MontserratAlternates_Regular
 import com.uretouch.common.ui.kit.resources.Res
 import org.jetbrains.compose.resources.Font
@@ -39,7 +40,7 @@ private val DarkColorScheme = darkColors(
     onPrimary = AppColors.White,
     secondary = md_theme_dark_secondary,
     onSecondary = md_theme_dark_onSecondary,
-    error = md_theme_dark_error,
+    error = AppColors.RedDark,
     onError = md_theme_dark_onError,
     background = AppColors.BackgroundDark,
     onBackground = AppColors.White,
@@ -101,7 +102,8 @@ fun AppTheme(
                     fontFamily = FontFamily(Font(Res.font.MontserratAlternates_Regular))
                 ),
                 button = MaterialTheme.typography.button.copy(
-                    fontFamily = FontFamily(Font(Res.font.MontserratAlternates_Regular))
+                    fontFamily = FontFamily(Font(Res.font.MontserratAlternates_Regular)),
+                    fontSize = 16.sp
                 ),
                 caption = MaterialTheme.typography.caption.copy(
                     fontFamily = FontFamily(Font(Res.font.MontserratAlternates_Regular))

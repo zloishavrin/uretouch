@@ -7,13 +7,22 @@ plugins {
 
 kotlin {
     sourceSets {
+        all {
+            languageSettings {
+                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+            }
+        }
+
         commonMain.dependencies {
+            implementation(projects.common.core)
+            implementation(projects.common.uiKit)
             implementation(projects.feature.auth.logic)
 
             implementation(libs.decompose)
             implementation(libs.decompose.compose)
             implementation(compose.runtime)
             implementation(compose.material)
+            implementation(compose.components.resources)
         }
     }
 }

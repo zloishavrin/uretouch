@@ -28,4 +28,5 @@ object AppColors {
     val White = Color(0xFFFFFFFF)
     val Yellow = Color(0xFFFFC42C)
     val BackgroundDark = Color(0xFF242424)
+    val RedDark = Color(0xFFE74C4C)
 }

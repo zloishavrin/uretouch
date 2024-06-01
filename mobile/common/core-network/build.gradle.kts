@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinx.serialization)
     id("convention.multiplatform")
 }
 
@@ -11,8 +12,9 @@ kotlin {
 
         commonMain.dependencies {
             implementation(projects.common.core)
+            implementation(projects.common.coreSettings)
 
-            implementation(libs.ktor.core)
+            api(libs.ktor.core)
             implementation(libs.ktor.serialization)
             implementation(libs.ktor.logging)
             implementation(libs.ktor.auth)

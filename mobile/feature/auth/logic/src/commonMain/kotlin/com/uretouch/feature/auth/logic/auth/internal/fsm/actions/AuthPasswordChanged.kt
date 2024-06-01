@@ -11,7 +11,10 @@ internal class AuthPasswordChanged(
     @Edge("PasswordChange")
     inner class FromInitial : SelfTransition<AuthState.Initial>() {
         override fun transform(state: AuthState.Initial): AuthState.Initial {
-            return state.copy(password = password)
+            return state.copy(
+                password = password,
+                error = ""
+            )
         }
     }
 }

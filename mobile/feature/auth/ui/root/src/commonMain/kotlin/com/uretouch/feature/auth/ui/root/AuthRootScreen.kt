@@ -9,6 +9,8 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.uretouch.feature.auth.logic.root.api.AuthRootComponent
 import com.uretouch.feature.auth.ui.auth.AuthScreen
+import com.uretouch.feature.auth.ui.auth.CheckingScreen
+import com.uretouch.feature.auth.ui.auth.RegistrationScreen
 
 @Composable
 fun AuthRootScreen(
@@ -24,6 +26,18 @@ fun AuthRootScreen(
         when (val child = it.instance) {
             is AuthRootComponent.Child.Auth -> {
                 AuthScreen(
+                    component = child.component,
+                )
+            }
+
+            is AuthRootComponent.Child.Registration -> {
+                RegistrationScreen(
+                    component = child.component,
+                )
+            }
+
+            is AuthRootComponent.Child.Checking -> {
+                CheckingScreen(
                     component = child.component,
                 )
             }

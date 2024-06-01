@@ -13,10 +13,8 @@ import org.koin.dsl.module
 import ${appPackage}.common.core.decompose.CancelableCoroutineScope
 import ${appPackage}.common.core.decompose.cancelableCoroutineScope
 import ${appPackage}.common.core.decompose.defaultClosableScope
-import ${appPackage}.common.core.fsm.NavigationComponent
 import ${appPackage}.common.core.flow.AnyStateFlow
 import ${appPackage}.common.core.flow.wrapToAny
-import ${appPackage}.common.coreDi.ComponentKoinContext
 import ${packageName}.api.${component}
 import ${packageName}.api.${componentDependencies}
 import ${packageName}.api.state.${componentState}

@@ -1,0 +1,14 @@
+<resources>
+    <string name="auth_enter">Войти</string>
+    <string name="auth_registration">Зарегистрироваться</string>
+    <string name="auth_email_label">Почта</string>
+    <string name="auth_password_label">Пароль</string>
+
+    <string name="registration_title">Регистрация</string>
+    <string name="registration_email_label">Почта</string>
+    <string name="registration_password_label">Пароль</string>
+    <string name="registration_repeat_password_label">Пароль еще раз</string>
+    <string name="registration_registry">Зарегистрироваться</string>
+
+    <string name="checking_description">Вам на почту %1$s выслана ссылка активации аккаунта</string>
+</resources>

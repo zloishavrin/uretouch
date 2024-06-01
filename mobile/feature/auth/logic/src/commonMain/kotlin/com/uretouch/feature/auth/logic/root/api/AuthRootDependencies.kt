@@ -1,3 +1,7 @@
 package com.uretouch.feature.auth.logic.root.api
 
-class AuthRootDependencies()
+import com.uretouch.domain.auth.interactor.AuthInteractor
+
+class AuthRootDependencies(
+    val authInteractor: AuthInteractor,
+)

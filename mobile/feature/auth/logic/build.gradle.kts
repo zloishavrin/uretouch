@@ -10,6 +10,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.common.core)
 
+            implementation(projects.domain.auth)
+
             implementation(libs.koin.core)
             implementation(libs.decompose)
             implementation(libs.kotlinx.coroutines.core)

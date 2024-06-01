@@ -4,14 +4,16 @@ import com.uretouch.feature.auth.logic.auth.internal.fsm.state.AuthState
 import ru.kontur.mobile.visualfsm.Edge
 import ru.kontur.mobile.visualfsm.SelfTransition
 
-internal class AuthLoginChanged(
-    private val login: String,
+internal class AuthEmailChanged(
+    private val email: String,
 ) : BaseAuthAction() {
 
-    @Edge("LoginChange")
+    @Edge("EmailChange")
     inner class FromInitial : SelfTransition<AuthState.Initial>() {
         override fun transform(state: AuthState.Initial): AuthState.Initial {
-            return state.copy(login = login
+            return state.copy(
+                email = email,
+                error = ""
             )
         }
     }

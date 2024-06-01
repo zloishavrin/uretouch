@@ -1,12 +1,13 @@
 package com.uretouch.feature.auth.logic.auth.api
 
+import com.uretouch.common.core.flow.AnyStateFlow
 import com.uretouch.feature.auth.logic.auth.api.state.AuthUiState
-import kotlinx.coroutines.flow.StateFlow
 
 interface AuthComponent {
-    val state: StateFlow<AuthUiState>
+    val state: AnyStateFlow<AuthUiState>
 
-    fun loginChange(text: String)
+    fun emailChange(text: String)
     fun passwordChange(text: String)
     fun onLoginClick()
+    fun onRegistrationClick()
 }
