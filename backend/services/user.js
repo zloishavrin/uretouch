@@ -8,16 +8,11 @@ const tokenService = require('../services/token');
 
 class UserService {
 
-    async registration(login, email, password) {
+    async registration(email, password) {
 
         const candidateEmail = await UserModel.findOne({email});
         if(candidateEmail) {
             throw ApiError.BadRequestError(`Пользователь с почтовым адресом ${email} уже существует`);
-        }
-
-        const candidateLogin = await UserModel.findOne({login});
-        if(candidateLogin)  {
-            throw ApiError.BadRequestError(`Пользователь с логином ${login} уже существует`);
         }
 
         const hashedPassword  = await bcrypt.hash(password, 3);
@@ -25,8 +20,8 @@ class UserService {
 
         const apiKey = uuid.v4();
 
-        const user = await UserModel.create({email, login, password: hashedPassword, activationLink, apiKey});
-        await mailService.sendActivationMail(email, activationLink, login);
+        const user = await UserModel.create({email, password: hashedPassword, activationLink, apiKey});
+        await mailService.sendActivationMail(email, activationLink);
 
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
@@ -47,11 +42,11 @@ class UserService {
 
     }
 
-    async login(login, password) {
+    async login(email, password) {
 
-        const user = await UserModel.findOne({login});
+        const user = await UserModel.findOne({email});
         if(!user) {
-            throw ApiError.BadRequestError(`Пользователь с логином ${login} не найден`);
+            throw ApiError.BadRequestError(`Пользователь с почтой ${email} не найден`);
         }
 
         const isPasswordEquals = await bcrypt.compare(password, user.password);
@@ -101,6 +96,13 @@ class UserService {
         const apiKey = user.apiKey;
         return apiKey;
 
+    }
+
+    async isActivated(userId) {
+
+        const user = await UserModel.findById(userId);
+        return user.isActivated;
+        
     }
 
 }

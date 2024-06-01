@@ -4,8 +4,8 @@ class AuthentificationController {
 
     async registration(req, res, next) {
         try {
-            const { login, email, password } = req.body;
-            const userData = await userService.registration(login, email, password);
+            const { email, password } = req.body;
+            const userData = await userService.registration(email, password);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
             return res.json(userData);
         }
@@ -27,8 +27,8 @@ class AuthentificationController {
 
     async login(req, res, next)  {
         try {
-            const { login, password }  = req.body;
-            const userData = await userService.login(login, password);
+            const { email, password }  = req.body;
+            const userData = await userService.login(email, password);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
             return res.json(userData);
         }
@@ -55,6 +55,17 @@ class AuthentificationController {
             const token = await userService.logout(refreshToken);
             res.clearCookie('refreshToken');
             return res.json({message: "Успешный выход"});
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async isActivated(req, res, next) {
+        try {
+            const userId = req.params.userId;
+            const isActivated  = await userService.isActivated(userId);
+            return res.json({ status: isActivated});
         }
         catch(error) {
             next(error);

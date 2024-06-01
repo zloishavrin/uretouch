@@ -12,7 +12,7 @@ class MailService {
         })
     }
 
-    async sendActivationMail(to, link, login) {
+    async sendActivationMail(to, link) {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
@@ -26,7 +26,7 @@ class MailService {
                 </div>
                 <div style="padding: 20px; text-align: center; background-color: #fff; border-radius: 10px;">
                     <p style="font-size: 18px; color: #555;">
-                        Здравствуйте, <b>${login}</b>
+                        Здравствуйте, <b>${to}</b>
                     </p>
                     <p style="font-size: 16px; color: #555;">
                         Для активации вашего аккаунта, пожалуйста, перейдите по следующей ссылке:
