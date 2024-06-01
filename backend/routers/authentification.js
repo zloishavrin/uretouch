@@ -7,20 +7,20 @@ const authentificationRouter = Router();
 authentificationRouter.post(
     '/registration',
     ValidateMiddleware.isEmpty(
-        ['login', 'email', 'password'], 
-        ['"Логин"', '"Почта"', '"Пароль"']
+        ['email', 'password'], 
+        ['"Почта"', '"Пароль"']
     ),
     ValidateMiddleware.isEmail('email'),
-    ValidateMiddleware.isInRange('login', 6, 32),
     ValidateMiddleware.isInRange('password', 6, 32),
     AuthentificationController.registration
 );
 
 authentificationRouter.post(
     '/login',
+    ValidateMiddleware.isEmail('email'),
     ValidateMiddleware.isEmpty(
-        ['login',  'password'],  
-        ['"Логин"',  '"Пароль"']
+        ['password'],  
+        ['"Пароль"']
     ),
     AuthentificationController.login
 );
@@ -34,7 +34,7 @@ authentificationRouter.post(
     AuthentificationController.logout
 )
 
-authentificationRouter.get(
+authentificationRouter.post(
     '/refresh',
     ValidateMiddleware.isEmpty(
         ['refreshToken'], 
@@ -47,5 +47,10 @@ authentificationRouter.get(
     '/activate/:link',
     AuthentificationController.activate
 );
+
+authentificationRouter.get(
+    '/isActivated/:userId',
+    AuthentificationController.isActivated
+)
 
 module.exports = authentificationRouter;
