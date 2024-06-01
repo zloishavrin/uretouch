@@ -4,7 +4,7 @@ const GenerationSchema = new Schema({
     user: {type: Schema.Types.ObjectId, ref: 'User'},
     prompt: {type: String, required: true},
     status: {type: String, required: true, enum: ['in progress', 'completed', 'failed']},
-    url: {type: [String]}
+    url: {type: [String], default: []}
 });
 
 module.exports = model('Generation', GenerationSchema);

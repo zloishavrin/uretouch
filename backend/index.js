@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors  = require('cors');
 const cookieParser = require('cookie-parser');
 
-//const generationRouter = require('./routers/generation');
+const generationRouter = require('./routers/generation');
 const authentificationRouter = require('./routers/authentification');
 const userRouter = require('./routers/user');
 const errorMiddleware = require('./middlewares/error');
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/auth', authentificationRouter);
-//app.use('/api/generation', generationRouter);
+app.use('/api/generation', generationRouter);
 app.use('/api/user', userRouter);
 
 app.use(errorMiddleware);

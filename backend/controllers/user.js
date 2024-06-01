@@ -17,7 +17,7 @@ class userController {
         try {
             const userData = req.user;
             const history = await generationService.userHistory(userData.id);
-            res.json({ history});
+            res.json(history);
         }
         catch(error) {
             next(error);
@@ -27,8 +27,9 @@ class userController {
     async getGeneration(req, res, next) {
         try {
             const userData = req.user;
-            const generation = await generationService.getGeneration(userData.id);
-            res.json({ generation });
+            const generationId = req.params.id;
+            const generation = await generationService.getGeneration(generationId);
+            res.json(generation);
         }
         catch(error) {
             next(error);
