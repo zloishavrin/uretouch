@@ -1,0 +1,27 @@
+requiredParams:
+  name: Compose screen component
+  description: Создание экрана на основе decompose component
+
+widgets:
+  - stringParameter:
+      id: componentName
+      name: Имя компонента
+      help: Имя компонента
+      constraints:
+        - class
+        - nonempty
+        - unique
+      default: Blank
+
+globals:
+  - stringParameter:
+      id: component
+      value: ${componentName}Component
+  - stringParameter:
+      id: screenName
+      value: ${componentName}Screen
+
+recipe:
+  - instantiateAndOpen:
+      from: root/ScreenComponent.kt.ftl
+      to: ${srcOut}/${screenName}.kt

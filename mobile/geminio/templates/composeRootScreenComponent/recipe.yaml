@@ -1,0 +1,39 @@
+requiredParams:
+  name: Compose Root screen component
+  description: Создание рутового экрана
+
+widgets:
+  - stringParameter:
+      id: componentName
+      name: Имя компонента
+      help: Имя компонента
+      constraints:
+        - class
+        - nonempty
+        - unique
+      default: Blank
+
+  - stringParameter:
+      id: componentPostfix
+      name: Постфикс компонента
+      help: Постфикс компонента
+      constraints:
+        - class
+        - unique
+      default: Root
+
+globals:
+  - stringParameter:
+      id: componentFullName
+      value: ${componentName}${componentPostfix}
+  - stringParameter:
+      id: component
+      value: ${componentFullName}Component
+  - stringParameter:
+      id: screenName
+      value: ${componentFullName}Screen
+
+recipe:
+  - instantiateAndOpen:
+      from: root/RootScreenComponent.kt.ftl
+      to: ${srcOut}/${screenName}.kt

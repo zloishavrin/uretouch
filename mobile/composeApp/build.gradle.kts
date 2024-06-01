@@ -1,14 +1,12 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
-    alias(libs.plugins.multiplatform)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.compose)
     alias(libs.plugins.android.application)
+    id("convention.multiplatform")
+    id("convention.compose")
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -17,8 +15,8 @@ kotlin {
         compilations.all {
             compileTaskProvider {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                    freeCompilerArgs.add("-Xjdk-release=${JavaVersion.VERSION_1_8}")
+                    jvmTarget.set(JvmTarget.JVM_17)
+                    freeCompilerArgs.add("-Xjdk-release=${JavaVersion.VERSION_17}")
                 }
             }
         }
@@ -50,21 +48,35 @@ kotlin {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
             }
         }
+        androidMain.dependencies {
+            implementation(compose.uiTooling)
+            implementation(libs.androidx.activityCompose)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.koin.android)
+        }
+
         commonMain.dependencies {
+            implementation(projects.common.core)
+            implementation(projects.common.coreSettings)
+            implementation(projects.common.uiKit)
+
+            implementation(projects.feature.root.logic)
+            implementation(projects.feature.auth.logic)
+            implementation(projects.feature.auth.ui.root)
+
+            implementation(projects.feature.onboarding.logic)
+            implementation(projects.feature.onboarding.ui)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material3)
+            implementation(compose.material)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.decompose)
             implementation(libs.decompose.compose)
             implementation(libs.napier)
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.ktor.core)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
+            implementation(libs.androidx.securityCrypto)
         }
 
         commonTest.dependencies {
@@ -74,15 +86,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
         }
 
-        androidMain.dependencies {
-            implementation(compose.uiTooling)
-            implementation(libs.androidx.activityCompose)
-            implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.client.okhttp)
-        }
-
         iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
+
         }
 
     }
@@ -90,12 +95,8 @@ kotlin {
 
 android {
     namespace = "com.uretouch.app"
-    compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 34
-
         applicationId = "com.uretouch.app.androidApp"
         versionCode = 1
         versionName = "1.0.0"
@@ -105,26 +106,5 @@ android {
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
         res.srcDirs("src/androidMain/res")
-    }
-    //https://developer.android.com/studio/test/gradle-managed-devices
-    @Suppress("UnstableApiUsage")
-    testOptions {
-        managedDevices.devices {
-            maybeCreate<ManagedVirtualDevice>("pixel5").apply {
-                device = "Pixel 5"
-                apiLevel = 34
-                systemImageSource = "aosp"
-            }
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
     }
 }

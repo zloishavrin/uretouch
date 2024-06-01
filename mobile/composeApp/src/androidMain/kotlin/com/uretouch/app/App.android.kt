@@ -1,29 +1,33 @@
 package com.uretouch.app
 
-import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.arkivanov.decompose.defaultComponentContext
+import com.uretouch.feature.root.logic.api.RootComponent
+import com.uretouch.feature.root.logic.api.RootComponentFactory
+import com.uretouch.feature.root.logic.api.RootDependencies
+import org.koin.android.ext.android.get
 
-class AndroidApp : Application() {
-    companion object {
-        lateinit var INSTANCE: AndroidApp
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        INSTANCE = this
-    }
-}
 
 class AppActivity : ComponentActivity() {
+    private var rootComponent: RootComponent? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { App() }
+
+        rootComponent = RootComponentFactory.create(
+            componentContext = defaultComponentContext(),
+            dependencies = get()
+        )
+
+        setContent {
+            RootScreen(requireNotNull(rootComponent))
+        }
     }
 }
 

@@ -1,0 +1,146 @@
+requiredParams:
+  name: Decompose Component
+  description: Создание декомпоуз компонента
+
+widgets:
+  - stringParameter:
+      id: componentName
+      name: Имя компонента
+      help: Имя компонента
+      constraints:
+        - class
+        - nonempty
+        - unique
+      default: Blank
+
+  - booleanParameter:
+      id: isVisualFSMFeature
+      name: Создать объекты для VisualFSM?
+      help: Создает VisualFSM Feature, AsyncWorker, BaseAction, State
+      default: true
+
+  - booleanParameter:
+      id: isNeedFactory
+      name: Создать factory для компонента?
+      help: factory нужна в том случае, если компонент будет использоваться в другом модуле
+      default: false
+
+globals:
+  - stringParameter:
+      id: component
+      value: ${componentName}Component
+
+  - stringParameter:
+      id: componentFactory
+      value: ${componentName}Factory
+
+  - stringParameter:
+      id: componentDependencies
+      value: ${componentName}Dependencies
+
+  - stringParameter:
+      id: defaultComponent
+      value: Default${componentName}Component
+
+  - stringParameter:
+      id: componentState
+      value: ${componentName}UiState
+
+  - stringParameter:
+      id: componentDiModule
+      value: ${componentName}Module
+
+  - stringParameter:
+      id: FSMFeature
+      value: ${componentName}Feature
+
+  - stringParameter:
+      id: FSMAsyncWorker
+      value: ${componentName}AsyncWorker
+
+  - stringParameter:
+      id: FSMState
+      value: ${componentName}State
+
+  - stringParameter:
+      id: FSMBaseAction
+      value: Base${componentName}Action
+
+  - stringParameter:
+      id: appPackage
+      value: com.uretouch
+
+recipe:
+  - instantiate:
+      from: root/api/Component.kt.ftl
+      to: ${srcOut}/api/${component}.kt
+  - instantiate:
+      from: root/api/ComponentDependencies.kt.ftl
+      to: ${srcOut}/api/${componentDependencies}.kt
+  - predicate:
+      validIf: ${isVisualFSMFeature}
+      commands:
+        - instantiate:
+            from: root/internal/DefaultFSMComponent.kt.ftl
+            to: ${srcOut}/internal/${defaultComponent}.kt
+      elseCommands:
+        - instantiate:
+            from: root/internal/DefaultComponent.kt.ftl
+            to: ${srcOut}/internal/${defaultComponent}.kt
+
+  - predicate:
+      validIf: ${isVisualFSMFeature}
+      commands:
+        - instantiateAndOpen:
+            from: root/api/state/ComponentStateFSM.kt.ftl
+            to: ${srcOut}/api/state/${componentState}.kt
+      elseCommands:
+        - instantiateAndOpen:
+            from: root/api/state/ComponentState.kt.ftl
+            to: ${srcOut}/api/state/${componentState}.kt
+
+  - predicate:
+      validIf: ${isNeedFactory}
+      commands:
+        - instantiate:
+            from: root/api/ComponentFactory.kt.ftl
+            to: ${srcOut}/api/${componentFactory}.kt
+
+  - predicate:
+      validIf: ${isVisualFSMFeature}
+      commands:
+        - instantiate:
+            from: root/internal/di/ModuleFSM.kt.ftl
+            to: ${srcOut}/internal/di/${componentDiModule}.kt
+      elseCommands:
+        - instantiate:
+            from: root/internal/di/Module.kt.ftl
+            to: ${srcOut}/internal/di/${componentDiModule}.kt
+
+  - predicate:
+      validIf: ${isVisualFSMFeature}
+      commands:
+        - instantiate:
+            from: root/internal/fsm/actions/FSMBaseAction.kt.ftl
+            to: ${srcOut}/internal/fsm/actions/${FSMBaseAction}.kt
+
+  - predicate:
+      validIf: ${isVisualFSMFeature}
+      commands:
+        - instantiateAndOpen:
+            from: root/internal/fsm/state/FSMState.kt.ftl
+            to: ${srcOut}/internal/fsm/state/${FSMState}.kt
+
+  - predicate:
+      validIf: ${isVisualFSMFeature}
+      commands:
+        - instantiate:
+            from: root/internal/fsm/FSMAsyncWorker.kt.ftl
+            to: ${srcOut}/internal/fsm/${FSMAsyncWorker}.kt
+
+  - predicate:
+      validIf: ${isVisualFSMFeature}
+      commands:
+        - instantiate:
+            from: root/internal/fsm/FSMFeature.kt.ftl
+            to: ${srcOut}/internal/fsm/${FSMFeature}.kt

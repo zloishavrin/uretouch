@@ -1,0 +1,49 @@
+requiredParams:
+  name: VisualFSM action
+  description: Создание action для VisualFSM
+
+widgets:
+  - stringParameter:
+      id: feature
+      name: Имя фичи для action
+      help: Имя фичи будет добавлено в начало название action
+      constraints:
+        - class
+        - nonempty
+        - unique
+      default: FeatureName
+  - stringParameter:
+      id: action
+      name: Имя action
+      help: Имя action
+      constraints:
+        - class
+        - nonempty
+        - unique
+      default: ActionName
+
+  - booleanParameter:
+      id: isFromAsyncWorker
+      name: Этот action от Async Worker?
+      help: Если true, то добавит соответсвующий признак в название
+      default: false
+
+globals:
+  - stringParameter:
+      id: actionName
+      value: ${feature}${action}
+  - stringParameter:
+      id: actionNameFromAsyncWorker
+      value: ${feature}Handle${action}
+
+recipe:
+  - predicate:
+      validIf: ${isFromAsyncWorker}
+      commands:
+        - instantiateAndOpen:
+            from: root/VisualFSMAction.kt.ftl
+            to: ${srcOut}/${actionNameFromAsyncWorker}.kt
+      elseCommands:
+        - instantiateAndOpen:
+            from: root/VisualFSMAction.kt.ftl
+            to: ${srcOut}/${actionName}.kt

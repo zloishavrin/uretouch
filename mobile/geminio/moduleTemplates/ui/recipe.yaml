@@ -1,0 +1,28 @@
+requiredParams:
+  name: Ui Module
+  description: Создание ui модуля
+
+predefinedFeatures:
+  - enableModuleCreationParams:
+      defaultPackageNamePrefix: com.uretouch.feature
+
+widgets:
+  - booleanParameter:
+      id: isNeedScreen
+      name: Need screen?
+      help: Необходимо сразу создать скрин
+      default: false
+
+globals:
+  - stringParameter:
+      id: appPackage
+      value: com.uretouch
+
+package:
+recipe:
+  - mkDirs:
+      - ${srcOut}
+
+  - instantiateAndOpen:
+      from: root/build.gradle.kts.ftl
+      to: ${rootOut}/build.gradle.kts

@@ -1,0 +1,6 @@
+templatesRootDirPath: /geminio/templates
+modulesTemplatesRootDirPath: /geminio/modulesTemplates
+
+groupsNames:
+  forNewGroup: Templates
+  forNewModulesGroup: Modules

@@ -1,0 +1,68 @@
+requiredParams:
+  name: Decompose Root Component
+  description: Создание рутового декомпоуз компонента
+
+widgets:
+  - stringParameter:
+      id: componentName
+      name: Имя компонента
+      help: Имя компонента
+      constraints:
+        - class
+        - nonempty
+        - unique
+      default: Blank
+
+  - stringParameter:
+      id: componentPostfix
+      name: Постфикс компонента
+      help: Постфикс компонента
+      constraints:
+        - class
+        - unique
+      default: Root
+
+globals:
+  - stringParameter:
+      id: fullComponentName
+      value: ${componentName}${componentPostfix}
+  - stringParameter:
+      id: component
+      value: ${fullComponentName}Component
+
+  - stringParameter:
+      id: componentFactory
+      value: ${fullComponentName}ComponentFactory
+
+  - stringParameter:
+      id: componentDependencies
+      value: ${fullComponentName}Dependencies
+
+  - stringParameter:
+      id: defaultComponent
+      value: Default${fullComponentName}Component
+
+  - stringParameter:
+      id: componentDiModule
+      value: ${fullComponentName}Module
+
+  - stringParameter:
+      id: appPackage
+      value: com.uretouch
+
+recipe:
+  - instantiate:
+      from: root/api/Component.kt.ftl
+      to: ${srcOut}/api/${component}.kt
+  - instantiate:
+      from: root/api/ComponentDependencies.kt.ftl
+      to: ${srcOut}/api/${componentDependencies}.kt
+  - instantiate:
+      from: root/api/ComponentFactory.kt.ftl
+      to: ${srcOut}/api/${componentFactory}.kt
+  - instantiate:
+      from: root/internal/DefaultComponent.kt.ftl
+      to: ${srcOut}/internal/${defaultComponent}.kt
+  - instantiate:
+      from: root/internal/di/Module.kt.ftl
+      to: ${srcOut}/internal/di/${componentDiModule}.kt
