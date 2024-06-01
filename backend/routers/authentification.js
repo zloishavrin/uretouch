@@ -17,6 +17,7 @@ authentificationRouter.post(
 
 authentificationRouter.post(
     '/login',
+    ValidateMiddleware.isEmail('email'),
     ValidateMiddleware.isEmpty(
         ['password'],  
         ['"Пароль"']
