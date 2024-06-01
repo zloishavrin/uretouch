@@ -2,7 +2,9 @@ const {Schema, model} = require('mongoose');
 
 const GenerationSchema = new Schema({
     user: {type: Schema.Types.ObjectId, ref: 'User'},
-    url: {type: String, unique: true, required: true}
+    prompt: {type: String, required: true},
+    status: {type: String, required: true, enum: ['in progress', 'completed', 'failed']},
+    url: {type: [String]}
 });
 
 module.exports = model('Generation', GenerationSchema);
