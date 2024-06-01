@@ -33,7 +33,7 @@ authentificationRouter.post(
     AuthentificationController.logout
 )
 
-authentificationRouter.get(
+authentificationRouter.post(
     '/refresh',
     ValidateMiddleware.isEmpty(
         ['refreshToken'], 
