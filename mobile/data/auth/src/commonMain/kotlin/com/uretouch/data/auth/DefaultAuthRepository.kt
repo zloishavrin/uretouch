@@ -35,4 +35,12 @@ internal class DefaultAuthRepository(
         return authApi.checkActiveStatus(userId = userId).status
     }
 
+    override fun isAuthorized(): Boolean {
+        return authPreference.isAuthorized()
+    }
+
+    override fun setIsAuthorized(isAuthorized: Boolean) {
+        return authPreference.setIsAuthorized(isAuthorized = isAuthorized)
+    }
+
 }

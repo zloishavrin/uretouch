@@ -1,4 +1,4 @@
-package ru.kontur.logistics.common.core.eventDispatcher
+package com.uretouch.common.core.eventDispatcher
 
 class AuthEventDispatcher : BaseEventDispatcher<AuthEvent>() {
     suspend fun logout() {

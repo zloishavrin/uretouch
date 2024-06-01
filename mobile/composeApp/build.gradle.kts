@@ -67,6 +67,9 @@ kotlin {
             implementation(projects.feature.onboarding.logic)
             implementation(projects.feature.onboarding.ui)
 
+            implementation(projects.feature.tabNavigation.logic)
+            implementation(projects.feature.tabNavigation.ui)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)

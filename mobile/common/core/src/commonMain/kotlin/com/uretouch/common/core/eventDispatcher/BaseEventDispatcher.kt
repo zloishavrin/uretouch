@@ -1,4 +1,4 @@
-package ru.kontur.logistics.common.core.eventDispatcher
+package com.uretouch.common.core.eventDispatcher
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -1,3 +1,3 @@
-package ru.kontur.logistics.common.core.eventDispatcher
+package com.uretouch.common.core.eventDispatcher
 
 interface DispatchEvent

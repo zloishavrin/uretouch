@@ -23,11 +23,21 @@ internal class DefaultAuthPreference(
         return settings.getString(RefreshTokenKey, "")
     }
 
+    override fun isAuthorized(): Boolean {
+        return settings.getBoolean(IsAuthorizedKey, false)
+    }
+
+    override fun setIsAuthorized(isAuthorized: Boolean) {
+        settings[IsAuthorizedKey] = isAuthorized
+    }
+
     override fun clear() {
         settings[AccessTokenKey] = null
         settings[RefreshTokenKey] = null
+        settings[IsAuthorizedKey] = null
     }
 }
 
+private const val IsAuthorizedKey = "IsAuthorizeKey_v1"
 private const val AccessTokenKey = "AccessTokenKey_v1"
 private const val RefreshTokenKey = "RefreshTokenKey_v1"

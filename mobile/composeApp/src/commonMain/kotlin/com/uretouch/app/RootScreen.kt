@@ -10,6 +10,7 @@ import com.uretouch.common.ui.kit.theme.AppTheme
 import com.uretouch.feature.auth.ui.root.AuthRootScreen
 import com.uretouch.feature.onboarding.ui.OnboardingScreen
 import com.uretouch.feature.root.logic.api.RootComponent
+import com.uretouch.feature.tab.navigation.ui.TabNavigationRootScreen
 
 @Composable
 internal fun RootScreen(
@@ -30,6 +31,12 @@ internal fun RootScreen(
 
                 is RootComponent.Child.Onboarding -> {
                     OnboardingScreen(
+                        component = child.component
+                    )
+                }
+
+                is RootComponent.Child.TabNavigationRoot -> {
+                    TabNavigationRootScreen(
                         component = child.component
                     )
                 }

@@ -7,10 +7,12 @@ object AuthRootComponentFactory {
     fun create(
         componentContext: ComponentContext,
         dependencies: AuthRootDependencies,
+        navigateToTab: () -> Unit,
     ): AuthRootComponent {
         return DefaultAuthRootComponent(
             componentContext = componentContext,
-            dependencies = dependencies
+            dependencies = dependencies,
+            navigateToTab = navigateToTab,
         )
     }
 }

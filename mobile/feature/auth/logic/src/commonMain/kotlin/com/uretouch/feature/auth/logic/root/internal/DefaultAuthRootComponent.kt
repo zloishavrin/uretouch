@@ -21,6 +21,7 @@ import kotlinx.serialization.Serializable
 internal class DefaultAuthRootComponent(
     componentContext: ComponentContext,
     dependencies: AuthRootDependencies,
+    private val navigateToTab: () -> Unit,
 ) : AuthRootComponent, ComponentContext by componentContext {
 
     private val scope by defaultClosableScope(modules = AuthRootModule.create(dependencies))
@@ -46,9 +47,7 @@ internal class DefaultAuthRootComponent(
                     navigateToRegistration = { email ->
                         navigation.pushNew(Config.Registration(email = email))
                     },
-                    navigateToTab = {
-
-                    },
+                    navigateToTab = navigateToTab,
                     navigateToCheck = { email, userId ->
                         navigation.pushNew(Config.Checking(email = email, userId = userId))
                     }
@@ -73,9 +72,7 @@ internal class DefaultAuthRootComponent(
                     rootScope = scope,
                     email = config.email,
                     userId = config.userId,
-                    navigateToTab = {
-
-                    },
+                    navigateToTab = navigateToTab,
                     navigateBack = navigation::pop
                 )
             )

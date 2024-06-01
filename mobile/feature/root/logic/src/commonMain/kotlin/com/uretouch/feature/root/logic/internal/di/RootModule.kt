@@ -1,5 +1,6 @@
 package com.uretouch.feature.root.logic.internal.di
 
+import com.uretouch.common.core.eventDispatcher.AuthEventDispatcher
 import com.uretouch.common.core.logouter.LogoutUseCase
 import com.uretouch.common.core.network.di.CoreNetworkModule
 import com.uretouch.common.core.settings.SettingsFactory
@@ -13,7 +14,6 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import ru.kontur.logistics.common.core.eventDispatcher.AuthEventDispatcher
 
 internal object RootModule {
     fun create(dependencies: RootDependencies): List<Module> {

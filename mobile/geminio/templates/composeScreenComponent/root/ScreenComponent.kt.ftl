@@ -1,7 +1,7 @@
 package ${packageName}
 
 import androidx.compose.foundation.layout.fillMaxSize
-import ru.kontur.mobile.compose.design.widget.Scaffold
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue

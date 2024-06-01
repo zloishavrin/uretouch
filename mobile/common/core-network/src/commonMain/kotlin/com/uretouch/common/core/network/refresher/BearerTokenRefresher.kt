@@ -1,9 +1,9 @@
 package com.uretouch.common.core.network.refresher
 
+import com.uretouch.common.core.eventDispatcher.AuthEventDispatcher
 import com.uretouch.common.core.network.api.AuthRefresherApi
 import com.uretouch.common.core.preference.AuthPreference
 import io.ktor.client.plugins.auth.providers.BearerTokens
-import ru.kontur.logistics.common.core.eventDispatcher.AuthEventDispatcher
 import kotlin.coroutines.cancellation.CancellationException
 
 internal class BearerTokenRefresher(

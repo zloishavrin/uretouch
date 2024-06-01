@@ -9,7 +9,10 @@ import com.arkivanov.decompose.value.Value
 import com.uretouch.common.core.decompose.CancelableCoroutineScope
 import com.uretouch.common.core.decompose.cancelableCoroutineScope
 import com.uretouch.common.core.decompose.defaultClosableScope
+import com.uretouch.common.core.eventDispatcher.AuthEvent
+import com.uretouch.common.core.eventDispatcher.AuthEventDispatcher
 import com.uretouch.common.core.logouter.LogoutUseCase
+import com.uretouch.domain.auth.interactor.AuthInteractor
 import com.uretouch.domain.onboarding.logic.interactor.OnboardingInteractor
 import com.uretouch.feature.auth.logic.root.api.AuthRootComponentFactory
 import com.uretouch.feature.auth.logic.root.api.AuthRootDependencies
@@ -19,11 +22,11 @@ import com.uretouch.feature.root.logic.api.RootComponent
 import com.uretouch.feature.root.logic.api.RootComponent.Child
 import com.uretouch.feature.root.logic.api.RootDependencies
 import com.uretouch.feature.root.logic.internal.di.RootModule
+import com.uretouch.feature.tab.navigation.logic.api.TabNavigationRootComponentFactory
+import com.uretouch.feature.tab.navigation.logic.api.TabNavigationRootDependencies
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.Serializable
-import ru.kontur.logistics.common.core.eventDispatcher.AuthEvent
-import ru.kontur.logistics.common.core.eventDispatcher.AuthEventDispatcher
 
 internal class DefaultRootComponent(
     componentContext: ComponentContext,
@@ -36,6 +39,7 @@ internal class DefaultRootComponent(
     )
 
     private val onboardingInteractor = scope.get<OnboardingInteractor>()
+    private val authInteractor = scope.get<AuthInteractor>()
 
     private val authEventDispatcher = scope.get<AuthEventDispatcher>()
     private val logoutUseCase = scope.get<LogoutUseCase>()
@@ -51,10 +55,18 @@ internal class DefaultRootComponent(
     )
 
     private fun createInitialStack(): List<Config> {
-        return if (onboardingInteractor.isNeedShowOnboarding()) {
-            listOf(Config.Onboarding)
-        } else {
-            listOf(Config.Auth)
+        return when {
+            onboardingInteractor.isNeedShowOnboarding() -> {
+                listOf(Config.Onboarding)
+            }
+
+            authInteractor.isAuthorized() -> {
+                listOf(Config.TabNavigation)
+            }
+
+            else -> {
+                listOf(Config.Auth)
+            }
         }
     }
 
@@ -80,7 +92,10 @@ internal class DefaultRootComponent(
                     componentContext = componentContext,
                     dependencies = AuthRootDependencies(
                         authInteractor = scope.get()
-                    )
+                    ),
+                    navigateToTab = {
+                        navigation.replaceAll(Config.TabNavigation)
+                    }
                 )
             )
 
@@ -95,6 +110,16 @@ internal class DefaultRootComponent(
                     }
                 )
             )
+
+            Config.TabNavigation -> Child.TabNavigationRoot(
+                component = TabNavigationRootComponentFactory.create(
+                    componentContext = componentContext,
+                    dependencies = TabNavigationRootDependencies(
+                        authInteractor = scope.get(),
+                        authEventDispatcher = scope.get(),
+                    ),
+                )
+            )
         }
     }
 
@@ -105,5 +130,8 @@ internal class DefaultRootComponent(
 
         @Serializable
         data object Onboarding : Config
+
+        @Serializable
+        data object TabNavigation : Config
     }
 }

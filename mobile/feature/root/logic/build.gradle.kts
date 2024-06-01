@@ -12,6 +12,7 @@ kotlin {
             implementation(projects.common.coreNetwork)
 
             implementation(projects.feature.auth.logic)
+            implementation(projects.feature.tabNavigation.logic)
             implementation(projects.feature.onboarding.logic)
 
             implementation(projects.data.onboarding)

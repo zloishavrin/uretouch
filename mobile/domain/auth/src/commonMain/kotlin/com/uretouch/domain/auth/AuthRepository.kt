@@ -7,4 +7,6 @@ interface AuthRepository {
     suspend fun registration(email: String, password: String): User
     suspend fun logout()
     suspend fun checkActiveStatus(userId: String): Boolean
+    fun isAuthorized(): Boolean
+    fun setIsAuthorized(isAuthorized: Boolean)
 }

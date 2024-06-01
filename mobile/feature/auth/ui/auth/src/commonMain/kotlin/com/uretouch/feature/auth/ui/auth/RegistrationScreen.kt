@@ -120,7 +120,7 @@ fun RegistrationScreen(
                         CircularProgressIndicator(
                             color = AppTheme.colors.onPrimary,
                             strokeWidth = 2.dp,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(20.dp)
                         )
                     }
                     FadeScaleAnimatedVisibility(visible = !state.isLoading) {
