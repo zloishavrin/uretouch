@@ -8,7 +8,6 @@ class generationController {
             const userData = req.user;
             const prompt = req.body.prompt;
             const file = req.file;
-
             if(!file) {
                 throw ApiError.BadRequestError('Не загружен файл в форме');
             }
