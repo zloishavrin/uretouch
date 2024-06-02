@@ -4,7 +4,12 @@ const generationController = require('../controllers/generation');
 const multer = require('multer');
 
 const generationRouter = Router();
-const upload = multer();
+
+const storage = multer.memoryStorage();
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: 100 * 1024 * 1024 }  // Устанавливаем лимит на размер файла: 50MB
+});
 
 generationRouter.post(
     '/private',
