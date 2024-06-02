@@ -1,8 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { login, logout, registration, checkAuth } from "../service/AuthService";
 
-export default class UserStore {
-  user = {};
+export default class AuthStore {
   isAuth = false;
   isLoading = false;
   errorLogin = "";
@@ -13,10 +12,6 @@ export default class UserStore {
 
   setAuth(bool) {
     this.isAuth = bool;
-  }
-
-  setUser(user) {
-    this.user = user;
   }
 
   setLoading(bool) {
@@ -36,6 +31,7 @@ export default class UserStore {
       const data = await login(email, password);
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("isAuth", true);
       this.setAuth(true);
     } catch (e) {
       this.setErrorLogin(e.message);
@@ -47,6 +43,7 @@ export default class UserStore {
       const data = await registration(email, password);
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("isAuth", true);
       this.setAuth(true);
     } catch (e) {
       console.log(e.message);
@@ -60,8 +57,8 @@ export default class UserStore {
       await logout(refreshToken);
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("isAuth");
       this.setAuth(false);
-      this.setUser({});
     } catch (e) {
       console.log(e.message);
     }
@@ -74,6 +71,7 @@ export default class UserStore {
       const data = await checkAuth(refreshToken);
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("isAuth", true);
       this.setAuth(true);
     } catch (e) {
       console.log(e.response?.data?.message);

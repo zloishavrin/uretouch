@@ -5,19 +5,19 @@ import "./globalStyles/index.css";
 import App from "./App/App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import UserStore from "./store/UserStore";
+import AuthStore from "./store/AuthStore";
 
-export const userStore = new UserStore();
+export const authStore = new AuthStore();
 
 export const Context = createContext({
-  userStore,
+  authStore,
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Context.Provider
     value={{
-      userStore,
+      authStore,
     }}
   >
     <BrowserRouter>

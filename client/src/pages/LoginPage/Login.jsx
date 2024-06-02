@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Context } from "../..";
 import { useContext } from "react";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Login = observer(() => {
   const {
@@ -20,10 +20,13 @@ export const Login = observer(() => {
     },
   });
 
-  const { userStore } = useContext(Context);
+  const { authStore } = useContext(Context);
+
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    userStore.login({ email: data.email, password: data.password });
+    authStore.login(data.email, data.password);
+    navigate("/");
     reset();
   };
 
@@ -51,7 +54,7 @@ export const Login = observer(() => {
             <p className={styles.inputError}>{errors.password?.message}</p>
           </div>
           <div className={styles.inputContainer}>
-            {userStore.errorLogin && (
+            {authStore.errorLogin && (
               <div className={styles.error}>Неправильный логин или пароль</div>
             )}
           </div>

@@ -21,10 +21,10 @@ export const Registration = observer(() => {
     },
   });
 
-  const { userStore } = useContext(Context);
+  const { authStore } = useContext(Context);
 
   const onSubmit = (data) => {
-    userStore.registration({ email: data.email, password: data.password });
+    authStore.registration(data.email, data.password);
     reset();
   };
 
@@ -84,7 +84,7 @@ export const Registration = observer(() => {
             <p className={styles.inputError}>{errors.password2?.message}</p>
           </div>
           <div className={styles.inputContainer}>
-            {userStore.errorRegistration && (
+            {authStore.errorRegistration && (
               <div className={styles.error}>Такой аккаунт уже существует!</div>
             )}
           </div>
