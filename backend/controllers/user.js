@@ -1,5 +1,7 @@
 const userService = require('../services/user');
 const generationService = require('../services/generation');
+const ApiError = require('../exceptions/api');
+const mongoose = require('mongoose');
 
 class userController {
 
@@ -40,6 +42,26 @@ class userController {
             const generationId = req.params.id;
             const generation = await generationService.getGeneration(generationId);
             res.json(generation);
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async getGenerations(req, res, next) {
+        try {
+            const ids = req.query.id;
+
+            if(!ids) {
+                throw ApiError.BadRequestError('Укажите уникальные идентификаторы генераций');
+            }
+            const idList = ids.split(',');
+            const cleanedIdList = idList
+                .map(id => id.trim())
+                .filter(id => mongoose.Types.ObjectId.isValid(id));
+
+            const generations  = await generationService.getGenerations(cleanedIdList);
+            res.json(generations);
         }
         catch(error) {
             next(error);

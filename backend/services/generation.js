@@ -5,7 +5,7 @@ const FormData = require('form-data');
 class GenerationService {
 
     async userHistory(userId) {
-        const generations = await GenerationModel.find({user: userId, status: 'completed'});
+        const generations = await GenerationModel.find({user: userId});
         return generations;
     }
 
@@ -17,6 +17,11 @@ class GenerationService {
     async getGeneration(id) {
         const generation = await GenerationModel.findById(id);
         return generation;
+    }
+
+    async getGenerations(idList) {
+        const generations = await GenerationModel.find({_id: {$in: idList}});
+        return generations;
     }
 
     async createGeneration(user, prompt, file) {

@@ -29,6 +29,12 @@ userRouter.get(
 );
 
 userRouter.get(
+    '/generations',
+    PrivateAuthMiddleware,
+    UserController.getGenerations
+)
+
+userRouter.get(
     '/api-key',
     PrivateAuthMiddleware,
     UserController.apiKey
