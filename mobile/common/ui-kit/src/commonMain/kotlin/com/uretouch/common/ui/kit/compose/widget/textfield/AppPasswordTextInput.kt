@@ -48,6 +48,7 @@ fun AppPasswordTextInput(
             PasswordVisualTransformation()
         },
         keyboardActions = keyboardActions,
-        label = label
+        label = label,
+        singleLine = true
     )
 }

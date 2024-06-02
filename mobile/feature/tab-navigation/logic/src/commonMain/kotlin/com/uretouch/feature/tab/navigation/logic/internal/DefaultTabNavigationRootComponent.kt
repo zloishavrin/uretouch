@@ -41,14 +41,20 @@ internal class DefaultTabNavigationRootComponent(
             Config.Camera -> Child.Camera(
                 component = CameraRootComponentFactory.create(
                     componentContext = componentContext,
-                    dependencies = CameraRootDependencies()
+                    dependencies = CameraRootDependencies(
+                        settingsOpener = scope.get(),
+                        generationsInteractor = scope.get(),
+                        imageUtil = scope.get(),
+                    )
                 )
             )
 
             Config.History -> Child.History(
                 component = HistoryRootComponentFactory.create(
                     componentContext = componentContext,
-                    dependencies = HistoryRootDependencies()
+                    dependencies = HistoryRootDependencies(
+                        generationsInteractor = scope.get()
+                    )
                 )
             )
 

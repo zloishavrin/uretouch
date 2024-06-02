@@ -17,9 +17,11 @@ kotlin {
 
             implementation(projects.data.onboarding)
             implementation(projects.data.auth)
+            implementation(projects.data.generations)
 
             implementation(projects.domain.onboarding.logic)
             implementation(projects.domain.auth)
+            implementation(projects.domain.generations)
 
             implementation(libs.koin.core)
             implementation(libs.decompose)

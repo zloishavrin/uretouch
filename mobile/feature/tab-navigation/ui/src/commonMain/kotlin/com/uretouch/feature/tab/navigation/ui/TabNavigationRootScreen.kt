@@ -1,15 +1,21 @@
 package com.uretouch.feature.tab.navigation.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.uretouch.common.ui.kit.utils.LocalBottomNavigationState
 import com.uretouch.feature.camera.ui.CameraRootScreen
 import com.uretouch.feature.history.ui.HistoryRootScreen
 import com.uretouch.feature.settings.ui.SettingsRootScreen
@@ -22,6 +28,8 @@ fun TabNavigationRootScreen(
 ) {
     val childStack by component.childStack.subscribeAsState()
     val childInstance = childStack.active.instance
+    val bottomNavigationState = LocalBottomNavigationState.current
+    val currentBottomNavigationState by bottomNavigationState.state.collectAsState()
     val onTabClick: ((NavigationTab) -> Unit) = remember(component) {
         { tab ->
             when (tab) {
@@ -40,11 +48,17 @@ fun TabNavigationRootScreen(
     }
     Scaffold(
         bottomBar = {
-            AppBottomNavigation(
-                modifier = Modifier,
-                activeTab = activeTab,
-                onTabClick = onTabClick,
-            )
+            AnimatedVisibility(
+                visible = currentBottomNavigationState.isVisible,
+                enter = slideInVertically(initialOffsetY = { it / 2 }, animationSpec = tween(currentBottomNavigationState.animateDuration.toInt())),
+                exit = slideOutVertically(targetOffsetY = { it / 2 }, animationSpec = tween(currentBottomNavigationState.animateDuration.toInt()))
+            ) {
+                AppBottomNavigation(
+                    modifier = Modifier,
+                    activeTab = activeTab,
+                    onTabClick = onTabClick,
+                )
+            }
         },
         modifier = Modifier.navigationBarsPadding()
     ) { scaffoldPadding ->

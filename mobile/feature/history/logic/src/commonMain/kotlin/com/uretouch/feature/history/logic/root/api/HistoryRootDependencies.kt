@@ -1,3 +1,7 @@
 package com.uretouch.feature.history.logic.root.api
 
-class HistoryRootDependencies()
+import com.uretouch.domain.generations.interactor.GenerationsInteractor
+
+class HistoryRootDependencies(
+    val generationsInteractor: GenerationsInteractor,
+)

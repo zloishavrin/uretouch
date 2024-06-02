@@ -1,15 +1,20 @@
 package com.uretouch.feature.history.logic.history.internal.fsm.actions
 
+import com.uretouch.domain.generations.model.Generation
 import com.uretouch.feature.history.logic.history.internal.fsm.state.HistoryState
 import ru.kontur.mobile.visualfsm.Edge
 import ru.kontur.mobile.visualfsm.Transition
 
-internal class HistoryHandleLoadingSuccess() : BaseHistoryAction() {
+internal class HistoryHandleLoadingSuccess(
+    private val generations: List<Generation>,
+) : BaseHistoryAction() {
 
     @Edge("LoadingSuccess")
-    inner class Blank : Transition<HistoryState.AsyncWorkerState.Loading, HistoryState.AsyncWorkerState.Loading>() {
-        override fun transform(state: HistoryState.AsyncWorkerState.Loading): HistoryState.AsyncWorkerState.Loading {
-            return HistoryState.AsyncWorkerState.Loading
+    inner class Blank : Transition<HistoryState.AsyncWorkerState.Loading, HistoryState.Loaded>() {
+        override fun transform(state: HistoryState.AsyncWorkerState.Loading): HistoryState.Loaded {
+            return HistoryState.Loaded(
+                generations = generations
+            )
         }
     }
 }

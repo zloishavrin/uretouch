@@ -24,6 +24,7 @@ material = "1.12.0"
 composeCompiler = "1.5.11"
 ksp = "2.0.0-1.0.21"
 androidxSecurityCrypto = "1.1.0-alpha06"
+peekaboo = "0.5.2"
 
 [libraries]
 
@@ -67,6 +68,9 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-securityCrypto = { module = "androidx.security:security-crypto-ktx", version.ref = "androidxSecurityCrypto" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
+peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
 
 androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlinGradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }

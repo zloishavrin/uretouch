@@ -1,12 +1,16 @@
 package com.uretouch.app
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.uretouch.common.ui.kit.theme.AppTheme
+import com.uretouch.common.ui.kit.utils.BottomNavigationState
+import com.uretouch.common.ui.kit.utils.LocalBottomNavigationState
 import com.uretouch.feature.auth.ui.root.AuthRootScreen
 import com.uretouch.feature.onboarding.ui.OnboardingScreen
 import com.uretouch.feature.root.logic.api.RootComponent
@@ -36,9 +40,14 @@ internal fun RootScreen(
                 }
 
                 is RootComponent.Child.TabNavigationRoot -> {
-                    TabNavigationRootScreen(
-                        component = child.component
-                    )
+                    val bottomNavigationState = remember { BottomNavigationState(initialVisible = true) }
+                    CompositionLocalProvider(
+                        LocalBottomNavigationState provides bottomNavigationState,
+                    ) {
+                        TabNavigationRootScreen(
+                            component = child.component
+                        )
+                    }
                 }
             }
         }

@@ -1,0 +1,8 @@
+<resources>
+    <string name="camera_permission_denied">Нет доступа к камере\nДайте доступ к камере в настройках</string>
+    <string name="camera_settings_open">Открыть настройки</string>
+    <string name="camera_saving">Ожидайте, сохранение фотографии</string>
+
+    <string name="photo_preview_send_photo">Обработать</string>
+    <string name="photo_preview_cancel_photo">Удалить</string>
+</resources>

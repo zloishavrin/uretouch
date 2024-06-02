@@ -2,6 +2,7 @@ package com.uretouch.feature.history.logic.history.internal
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
+import com.arkivanov.essenty.lifecycle.doOnResume
 import com.uretouch.common.core.decompose.CancelableCoroutineScope
 import com.uretouch.common.core.decompose.cancelableCoroutineScope
 import com.uretouch.common.core.decompose.defaultClosableScope
@@ -12,6 +13,7 @@ import com.uretouch.feature.history.logic.history.api.state.HistoryUiState
 import com.uretouch.feature.history.logic.history.api.state.toUiState
 import com.uretouch.feature.history.logic.history.internal.di.HistoryModule
 import com.uretouch.feature.history.logic.history.internal.fsm.HistoryFeature
+import com.uretouch.feature.history.logic.history.internal.fsm.actions.HistoryOnRefreshed
 import com.uretouch.feature.history.logic.history.internal.fsm.state.HistoryState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -41,4 +43,12 @@ internal class DefaultHistoryComponent(
             started = SharingStarted.Eagerly,
             initialValue = initialState.toUiState()
         ).wrapToAny()
+
+    init {
+        lifecycle.doOnResume { onRefresh() }
+    }
+
+    override fun onRefresh() {
+        feature.proceed(HistoryOnRefreshed())
+    }
 }

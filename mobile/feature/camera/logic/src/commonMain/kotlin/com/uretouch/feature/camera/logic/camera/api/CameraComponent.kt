@@ -6,5 +6,6 @@ import com.uretouch.feature.camera.logic.camera.api.state.CameraUiState
 interface CameraComponent {
     val state: AnyStateFlow<CameraUiState>
 
-    fun onPhotoClick()
+    fun onPhotoCapture(image: ByteArray?)
+    fun onOpenSettingsClick()
 }

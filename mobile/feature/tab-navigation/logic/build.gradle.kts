@@ -8,6 +8,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.common.core)
             implementation(projects.domain.auth)
+            implementation(projects.domain.generations)
 
             implementation(projects.feature.history.logic)
             implementation(projects.feature.camera.logic)

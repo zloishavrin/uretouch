@@ -5,4 +5,6 @@ import com.uretouch.feature.history.logic.history.api.state.HistoryUiState
 
 interface HistoryComponent {
     val state: AnyStateFlow<HistoryUiState>
+
+    fun onRefresh()
 }

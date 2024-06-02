@@ -14,7 +14,7 @@ internal class DefaultAuthRefresherApi(
     override suspend fun refresh(refreshToken: String): ApiRefreshTokenResponse {
         return httpClient.post {
             url {
-                path("/auth/refresh")
+                path("api/auth/refresh")
             }
             setBody(ApiRefreshTokenRequest(refreshToken = refreshToken))
         }.body()

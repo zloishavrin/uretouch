@@ -5,8 +5,10 @@ import com.uretouch.common.core.logouter.LogoutUseCase
 import com.uretouch.common.core.network.di.CoreNetworkModule
 import com.uretouch.common.core.settings.SettingsFactory
 import com.uretouch.data.auth.di.DataAuthModule
+import com.uretouch.data.generations.di.DataGenerationsModule
 import com.uretouch.data.onboarding.di.DataOnboardingModule
 import com.uretouch.domain.auth.di.DomainAuthModule
+import com.uretouch.domain.generations.di.DomainGenerationsModule
 import com.uretouch.domain.onboarding.logic.di.DomainOnboardingModule
 import com.uretouch.feature.root.logic.api.RootDependencies
 import com.uretouch.feature.root.logic.internal.logouter.DefaultLogoutUseCase
@@ -20,6 +22,8 @@ internal object RootModule {
         return listOf(
             module {
                 factory { dependencies.settingsFactory }
+                factory { dependencies.settingsOpener }
+                factory { dependencies.imageUtil }
                 single { get<SettingsFactory>().createSettings() }
 
                 singleOf(::AuthEventDispatcher)
@@ -28,9 +32,11 @@ internal object RootModule {
         ) + listOf(
             DataOnboardingModule.module,
             DataAuthModule.module,
+            DataGenerationsModule.module,
         ) + listOf(
             DomainOnboardingModule.module,
-            DomainAuthModule.module
+            DomainAuthModule.module,
+            DomainGenerationsModule.module,
         ) + listOf(
             CoreNetworkModule.module,
         )

@@ -10,6 +10,8 @@ internal object TabNavigationRootModule {
             module {
                 factory { dependencies.authInteractor }
                 factory { dependencies.authEventDispatcher }
+                factory { dependencies.settingsOpener }
+                factory { dependencies.generationsRepository }
             }
         )
     }

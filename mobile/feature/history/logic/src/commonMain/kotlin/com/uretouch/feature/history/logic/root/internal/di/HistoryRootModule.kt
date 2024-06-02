@@ -8,7 +8,7 @@ internal object HistoryRootModule {
     fun create(dependencies: HistoryRootDependencies): List<Module> {
         return listOf(
             module {
-
+                factory { dependencies.generationsInteractor }
             }
         )
     }

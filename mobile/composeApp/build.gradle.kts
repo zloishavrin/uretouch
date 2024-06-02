@@ -39,6 +39,8 @@ kotlin {
         it.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+
+            export(libs.decompose)
         }
     }
 
@@ -59,6 +61,8 @@ kotlin {
             implementation(projects.common.core)
             implementation(projects.common.coreSettings)
             implementation(projects.common.uiKit)
+
+            implementation(projects.domain.generations)
 
             implementation(projects.feature.root.logic)
             implementation(projects.feature.auth.logic)

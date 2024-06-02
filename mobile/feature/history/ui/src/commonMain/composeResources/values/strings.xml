@@ -1,0 +1,5 @@
+<resources>
+    <string name="history_title">История</string>
+    <string name="history_loading_error">Ошибка загрузки</string>
+    <string name="history_repeat">Повторить</string>
+</resources>

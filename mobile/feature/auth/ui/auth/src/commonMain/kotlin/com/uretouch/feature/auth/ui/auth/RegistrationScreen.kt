@@ -9,13 +9,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -32,6 +30,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.uretouch.common.ui.kit.animation.FadeScaleAnimatedVisibility
 import com.uretouch.common.ui.kit.compose.widget.AppButton
+import com.uretouch.common.ui.kit.compose.widget.AppCircularProgressIndicatorButton
 import com.uretouch.common.ui.kit.compose.widget.AppTopBar
 import com.uretouch.common.ui.kit.compose.widget.LogoIcon
 import com.uretouch.common.ui.kit.compose.widget.textfield.AppPasswordTextInput
@@ -117,11 +116,7 @@ fun RegistrationScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     FadeScaleAnimatedVisibility(visible = state.isLoading) {
-                        CircularProgressIndicator(
-                            color = AppTheme.colors.onPrimary,
-                            strokeWidth = 2.dp,
-                            modifier = Modifier.size(20.dp)
-                        )
+                        AppCircularProgressIndicatorButton()
                     }
                     FadeScaleAnimatedVisibility(visible = !state.isLoading) {
                         Text(text = stringResource(Res.string.registration_registry))
@@ -181,6 +176,7 @@ private fun RegistrationEmailTextInput(
         },
         label = {
             Text(stringResource(Res.string.registration_email_label))
-        }
+        },
+        singleLine = true,
     )
 }

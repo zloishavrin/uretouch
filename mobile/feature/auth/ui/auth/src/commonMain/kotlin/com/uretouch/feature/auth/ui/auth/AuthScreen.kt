@@ -162,6 +162,7 @@ private fun AuthEmailTextInput(
         },
         label = {
             Text(stringResource(Res.string.auth_email_label))
-        }
+        },
+        singleLine = true
     )
 }

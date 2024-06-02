@@ -9,6 +9,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.common.core)
+            implementation(projects.domain.generations)
 
             implementation(libs.koin.core)
             implementation(libs.decompose)

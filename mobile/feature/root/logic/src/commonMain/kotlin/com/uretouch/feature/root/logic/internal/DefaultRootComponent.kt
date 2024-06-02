@@ -117,6 +117,8 @@ internal class DefaultRootComponent(
                     dependencies = TabNavigationRootDependencies(
                         authInteractor = scope.get(),
                         authEventDispatcher = scope.get(),
+                        settingsOpener = scope.get(),
+                        generationsRepository = scope.get(),
                     ),
                 )
             )
