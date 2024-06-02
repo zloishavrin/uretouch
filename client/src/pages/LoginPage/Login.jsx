@@ -2,8 +2,12 @@ import React from "react";
 import styles from "./Login.module.css";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Context } from "../..";
+import { useContext } from "react";
+import { observer } from "mobx-react-lite";
+import { useState } from "react";
 
-export const Login = () => {
+export const Login = observer(() => {
   const {
     register,
     handleSubmit,
@@ -16,7 +20,10 @@ export const Login = () => {
     },
   });
 
-  const onSubmit = () => {
+  const { userStore } = useContext(Context);
+
+  const onSubmit = (data) => {
+    userStore.login({ email: data.email, password: data.password });
     reset();
   };
 
@@ -43,6 +50,11 @@ export const Login = () => {
             />
             <p className={styles.inputError}>{errors.password?.message}</p>
           </div>
+          <div className={styles.inputContainer}>
+            {userStore.errorLogin && (
+              <div className={styles.error}>Неправильный логин или пароль</div>
+            )}
+          </div>
           <button className={`${styles.loginBtn} btn`}>Войти</button>
         </form>
         <p className={styles.loginText}>
@@ -54,4 +66,4 @@ export const Login = () => {
       </div>
     </div>
   );
-};
+});

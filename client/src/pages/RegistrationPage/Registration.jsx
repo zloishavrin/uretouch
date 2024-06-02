@@ -1,10 +1,12 @@
 import React from "react";
 import styles from "./Registration.module.css";
 import { Link } from "react-router-dom";
-import back from "../../assets/back.svg";
 import { useForm } from "react-hook-form";
+import { Context } from "../..";
+import { useContext } from "react";
+import { observer } from "mobx-react-lite";
 
-export const Registration = () => {
+export const Registration = observer(() => {
   const {
     register,
     formState: { errors },
@@ -19,7 +21,10 @@ export const Registration = () => {
     },
   });
 
+  const { userStore } = useContext(Context);
+
   const onSubmit = (data) => {
+    userStore.registration({ email: data.email, password: data.password });
     reset();
   };
 
@@ -78,6 +83,11 @@ export const Registration = () => {
             />
             <p className={styles.inputError}>{errors.password2?.message}</p>
           </div>
+          <div className={styles.inputContainer}>
+            {userStore.errorRegistration && (
+              <div className={styles.error}>Такой аккаунт уже существует!</div>
+            )}
+          </div>
           <button className={`${styles.registBtn} btn`}>
             Зарегистрироваться
           </button>
@@ -85,4 +95,4 @@ export const Registration = () => {
       </div>
     </div>
   );
-};
+});
