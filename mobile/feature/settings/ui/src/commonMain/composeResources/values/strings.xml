@@ -1,0 +1,5 @@
+<resources>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_logout">Выйти</string>
+    <string name="settings_version">Версия 1.0.0</string>
+</resources>

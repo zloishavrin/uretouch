@@ -6,6 +6,7 @@ import com.uretouch.data.auth.network.model.ApiLoginResponse
 import com.uretouch.data.auth.network.model.ApiLogoutRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.timeout
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -34,6 +35,10 @@ internal class DefaultAuthApi(
 
     override suspend fun logout(refreshToken: String?) {
         httpClient.post {
+            timeout {
+                connectTimeoutMillis = 1000
+                requestTimeoutMillis = 1000
+            }
             url {
                 path("/api/auth/logout")
             }

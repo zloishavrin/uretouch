@@ -4,8 +4,9 @@ import ru.kontur.mobile.visualfsm.State
 
 internal sealed class SettingsState : State {
 
+    data object Initial : SettingsState()
+
     sealed class AsyncWorkerState : SettingsState() {
-        data object Loading : AsyncWorkerState()
         data class Logout(
             val sourceState: SettingsState,
         ) : AsyncWorkerState()
@@ -13,7 +14,7 @@ internal sealed class SettingsState : State {
 
     companion object {
         fun initial(): SettingsState {
-            return AsyncWorkerState.Loading
+            return Initial
         }
     }
 }
