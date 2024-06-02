@@ -24,9 +24,19 @@ class userController {
         }
     }
 
-    async getGeneration(req, res, next) {
+    async jobs(req, res, next)  {
         try {
             const userData = req.user;
+            const jobs = await generationService.userJobs(userData.id);
+            res.json(jobs);
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async getGeneration(req, res, next) {
+        try {
             const generationId = req.params.id;
             const generation = await generationService.getGeneration(generationId);
             res.json(generation);

@@ -7,19 +7,18 @@ class generationController {
         try {
             const userData = req.user;
             const prompt = req.body.prompt;
-            console.log(prompt);
             const file = req.file;
 
             if(!file) {
                 throw ApiError.BadRequestError('Не загружен файл в форме');
             }
-            console.log(0);
+            else if(!prompt) {
+                throw ApiError.BadRequestError('Необходимо ввести промпт');
+            }
             const newGeneration = await generationService.createGeneration(userData, prompt, file);
 
-            res.json(newGeneration);
-            console.log(1);
+            res.json({ generation_id: newGeneration._id });
             await delay(30000);
-            console.log(newGeneration);
             await generationService.completeGeneration(newGeneration._id);
         }
         catch(error) {
@@ -31,6 +30,8 @@ class generationController {
 
 module.exports = new generationController();
 
+
+// MOCK-ФУНКЦИЯ
 function delay(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);

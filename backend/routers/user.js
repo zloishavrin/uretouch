@@ -17,6 +17,12 @@ userRouter.get(
 );
 
 userRouter.get(
+    '/jobs',
+    PrivateAuthMiddleware,
+    UserController.jobs
+)
+
+userRouter.get(
     '/generation/:id',
     PrivateAuthMiddleware,
     UserController.getGeneration

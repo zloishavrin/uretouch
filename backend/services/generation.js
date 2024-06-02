@@ -9,6 +9,11 @@ class GenerationService {
         return generations;
     }
 
+    async userJobs(userId)  {
+        const generations = await GenerationModel.find({user: userId, status: 'inProgress'});
+        return generations;
+    }
+
     async getGeneration(id) {
         const generation = await GenerationModel.findById(id);
         return generation;
@@ -17,7 +22,7 @@ class GenerationService {
     async createGeneration(user, prompt, file) {
         const form = new FormData();
         form.append('image', file.buffer, file.originalname);
-        const newGeneration = await GenerationModel.create({user: user.id, prompt, status: 'in progress'});
+        const newGeneration = await GenerationModel.create({user: user.id, prompt, status: 'inProgress'});
         return newGeneration;
     }
 
