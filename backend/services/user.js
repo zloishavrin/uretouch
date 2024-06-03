@@ -9,7 +9,6 @@ const tokenService = require('../services/token');
 class UserService {
 
     async registration(email, password) {
-
         const candidateEmail = await UserModel.findOne({email});
         if(candidateEmail) {
             throw ApiError.BadRequestError(`Пользователь с почтовым адресом ${email} уже существует`);
@@ -28,22 +27,18 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
         return {...tokens, user: userDto};
-
     }
 
     async activate(activationLink)  {
-
         const user  = await UserModel.findOne({activationLink});
         if(!user)  {
             throw ApiError.BadRequestError(`Некорректная ссылка активации`);
         }
         user.isActivated = true;
         await user.save();
-
     }
 
     async login(email, password) {
-
         const user = await UserModel.findOne({email});
         if(!user) {
             throw ApiError.BadRequestError(`Пользователь с почтой ${email} не найден`);
@@ -59,11 +54,9 @@ class UserService {
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return {...tokens, user: userDto};
-
     }
 
     async refresh(refreshToken) {
-
         if(!refreshToken)  {
             throw ApiError.UnauthorizedError();
         }
@@ -80,29 +73,22 @@ class UserService {
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return {...tokens, user: userDto};
-
     }
 
     async logout(refreshToken)  {
-
         const token = await tokenService.removeToken(refreshToken);
         return token;
-        
     }
 
     async getAPIKey(userId) {
-
         const user  = await UserModel.findById(userId);
         const apiKey = user.apiKey;
         return apiKey;
-
     }
 
     async isActivated(userId) {
-
         const user = await UserModel.findById(userId);
         return user.isActivated;
-        
     }
 
 }
