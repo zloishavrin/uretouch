@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { login, logout, registration, checkAuth } from "../service/AuthService";
 
 export default class AuthStore {
-  isAuth = false;
+  token = localStorage.getItem("refreshToken");
   isLoading = false;
   errorLogin = "";
   errorRegistration = "";
@@ -10,8 +10,8 @@ export default class AuthStore {
     makeAutoObservable(this);
   }
 
-  setAuth(bool) {
-    this.isAuth = bool;
+  setAuth(token) {
+    this.token = token;
   }
 
   setLoading(bool) {
@@ -22,8 +22,8 @@ export default class AuthStore {
     this.errorLogin = message;
   }
 
-  setRegistrationError(message)  {
-    this.errorRegistration  = message;
+  setRegistrationError(message) {
+    this.errorRegistration = message;
   }
 
   async login(email, password) {
@@ -31,25 +31,12 @@ export default class AuthStore {
       const data = await login(email, password);
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("isAuth", true);
-      this.setAuth(true);
+      this.setAuth(data.refreshToken);
     } catch (e) {
       this.setErrorLogin(e.message);
     }
   }
 
-  async registration(email, password) {
-    try {
-      const data = await registration(email, password);
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("isAuth", true);
-      this.setAuth(true);
-    } catch (e) {
-      console.log(e.message);
-      this.setRegistrationError(e.message);
-    }
-  }
 
   async logout() {
     const refreshToken = localStorage.getItem("refreshToken");
@@ -57,8 +44,7 @@ export default class AuthStore {
       await logout(refreshToken);
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("isAuth");
-      this.setAuth(false);
+      this.setAuth(null);
     } catch (e) {
       console.log(e.message);
     }
@@ -71,8 +57,7 @@ export default class AuthStore {
       const data = await checkAuth(refreshToken);
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("isAuth", true);
-      this.setAuth(true);
+      this.setAuth(data.refreshToken);
     } catch (e) {
       console.log(e.response?.data?.message);
     } finally {

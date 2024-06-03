@@ -6,6 +6,7 @@ import { Context } from "../..";
 import { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export const Login = observer(() => {
   const {
@@ -26,9 +27,13 @@ export const Login = observer(() => {
 
   const onSubmit = (data) => {
     authStore.login(data.email, data.password);
-    navigate("/");
-    reset();
   };
+
+  useEffect(() => {
+    if (authStore.token) {
+      navigate("/");
+    }
+  }, [authStore.token, navigate]);
 
   return (
     <div className={styles.login}>

@@ -57,7 +57,7 @@
   border-radius: 1.5vw;
   background: rgb(217, 217, 217);
   padding: 0.5vw 2vw;
-  margin-bottom: 1.5vw;
+  margin-bottom: 2vw;
   transition: background 0.2s ease;
 }
 
@@ -73,13 +73,39 @@
   background: rgb(255, 255, 255);
 }
 
-.registInput:last-of-type{
-  margin-bottom: 2vw;
-}
-
 .registBtn{
+  margin-top: 2vw;
   align-self: center;
   padding: 0.5vw 1vw;
   margin-bottom: 1vw;
   cursor: pointer;
 }
+
+.error{
+  left: 4vw;
+  top: 0.6vw;
+  font-size: 1vw;
+  position: absolute;
+  color: rgb(231, 76, 76);
+}
+
+
+.loader {
+  width: 2.5vw;
+  height: 2.5vw;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 

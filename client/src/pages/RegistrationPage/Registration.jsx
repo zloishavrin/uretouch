@@ -2,15 +2,19 @@ import React from "react";
 import styles from "./Registration.module.css";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Context } from "../..";
-import { useContext } from "react";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { registration } from "../../service/AuthService";
 
 export const Registration = observer(() => {
+
+  const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+
   const {
     register,
     formState: { errors },
-    reset,
     handleSubmit,
     watch,
   } = useForm({
@@ -21,11 +25,20 @@ export const Registration = observer(() => {
     },
   });
 
-  const { authStore } = useContext(Context);
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    authStore.registration(data.email, data.password);
-    reset();
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      await registration(data.email, data.password);
+      navigate("/auth");
+    } catch (e) {
+      if (e.response.status == 400) {
+        setError("Такой аккаунт уже существут!");
+      }
+    } finally{
+      setLoading(false);
+    }
   };
 
   return (
@@ -84,12 +97,14 @@ export const Registration = observer(() => {
             <p className={styles.inputError}>{errors.password2?.message}</p>
           </div>
           <div className={styles.inputContainer}>
-            {authStore.errorRegistration && (
+            {error && (
               <div className={styles.error}>Такой аккаунт уже существует!</div>
             )}
           </div>
           <button className={`${styles.registBtn} btn`}>
-            Зарегистрироваться
+            {
+              isLoading ? <span className={styles.loader}></span> : "Зарегистрироваться"
+            }
           </button>
         </form>
       </div>
