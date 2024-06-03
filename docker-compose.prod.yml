@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   mongo:
     image: mongo
@@ -38,6 +36,17 @@ services:
       - ./.env
     command: npm run dev
 
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/src/client
+      - /usr/src/client/node_modules
+    depends_on:
+      - backend
+    command: npm run start
+
   nginx:
     image: nginx:latest
     ports:
@@ -48,7 +57,7 @@ services:
       - ./static_client:/usr/share/nginx/html
       - ./certs:/etc/nginx/certs
     depends_on:
-      - backend
+      - client
 
 volumes:
   mongo-data:

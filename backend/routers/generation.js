@@ -21,6 +21,12 @@ generationRouter.post(
     generationController.createPrivate
 );
 
+generationRouter.get(
+    '/private/mods',
+    PrivateAuthMiddleware,
+    generationController.getMods
+)
+
 generationRouter.post(
     '/public',
 );

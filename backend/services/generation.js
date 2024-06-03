@@ -1,4 +1,5 @@
 const GenerationModel = require('../models/generation');
+const ModeModel = require('../models/mode');
 const axios = require('axios');
 const FormData = require('form-data');
 
@@ -24,9 +25,10 @@ class GenerationService {
         return generations;
     }
 
-    async createGeneration(user, prompt, file) {
+    async createGeneration(user, mode, file) {
         const form = new FormData();
         form.append('image', file.buffer, file.originalname);
+        const prompt = mode.prompt || mode;
         const newGeneration = await GenerationModel.create({user: user.id, prompt, status: 'inProgress', original: 'https://24tort.ru/img/Origin%D0%B1%D0%B0%D0%B1%D1%83%D0%BB%D0%B5_9.png'});
         return newGeneration;
     }
@@ -40,6 +42,23 @@ class GenerationService {
         generation.url.push('https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_655dd52aeece0b744ad0048e_655dfa4311aa97744330de27/scale_1200');
         await generation.save();
         return generation;
+    }
+
+    async getMods() {
+        const mods = await ModeModel.find();
+        if (Array.isArray(mods)) {
+            const updatedMode = mods.map((item) => {
+                const { prompt, ...rest } = item.toObject();
+                return rest;
+            });
+            return updatedMode;
+        }
+        return mods;
+    }
+
+    async getMode(id) {
+        const mode = await ModeModel.findById(id);    
+        return mode;
     }
 
 }
