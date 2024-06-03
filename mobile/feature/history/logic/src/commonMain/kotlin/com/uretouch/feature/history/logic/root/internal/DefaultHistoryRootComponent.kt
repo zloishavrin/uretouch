@@ -4,8 +4,11 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.uretouch.common.core.decompose.defaultClosableScope
+import com.uretouch.feature.history.logic.generationDetail.internal.DefaultGenerationDetailComponent
 import com.uretouch.feature.history.logic.history.internal.DefaultHistoryComponent
 import com.uretouch.feature.history.logic.root.api.HistoryRootComponent
 import com.uretouch.feature.history.logic.root.api.HistoryRootComponent.Child
@@ -36,7 +39,17 @@ internal class DefaultHistoryRootComponent(
             Config.History -> Child.History(
                 component = DefaultHistoryComponent(
                     componentContext = componentContext,
-                    rootScope = scope
+                    rootScope = scope,
+                    navigateToGenerationDetail = { navigation.pushNew(Config.GenerationDetail(id = it)) }
+                )
+            )
+
+            is Config.GenerationDetail -> Child.GenerationDetail(
+                component = DefaultGenerationDetailComponent(
+                    componentContext = componentContext,
+                    rootScope = scope,
+                    generationId = config.id,
+                    navigateBack = navigation::pop
                 )
             )
         }
@@ -44,6 +57,11 @@ internal class DefaultHistoryRootComponent(
 
     @Serializable
     private sealed interface Config {
+
+        @Serializable
+        data class GenerationDetail(
+            val id: String,
+        ) : Config
 
         @Serializable
         data object History : Config

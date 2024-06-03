@@ -12,6 +12,7 @@ internal object HistoryModule {
             HistoryFeature(
                 initialState = initialState.get(),
                 asyncWorker = get(),
+                generationsInteractor = get()
             )
         }
     }

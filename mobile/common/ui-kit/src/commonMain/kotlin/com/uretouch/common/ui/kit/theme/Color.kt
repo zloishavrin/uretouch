@@ -27,6 +27,7 @@ internal val md_theme_dark_onSurface = Color(0xFFFFE264)
 object AppColors {
     val White = Color(0xFFFFFFFF)
     val Yellow = Color(0xFFFFC42C)
+    val Overlay = White.copy(alpha = 0.43f)
     val BackgroundDark = Color(0xFF242424)
     val RedDark = Color(0xFFE74C4C)
 }

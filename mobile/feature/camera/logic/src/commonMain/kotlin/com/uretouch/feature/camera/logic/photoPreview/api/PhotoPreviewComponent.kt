@@ -10,4 +10,5 @@ interface PhotoPreviewComponent {
     fun onProcessPhotoClick()
     fun onCancelClick()
     fun onPromptChange(text: String)
+    fun onGenerationModeClick(modeId: String)
 }

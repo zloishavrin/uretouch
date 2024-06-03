@@ -3,6 +3,7 @@ package com.uretouch.feature.history.logic.history.internal
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.arkivanov.essenty.lifecycle.doOnResume
+import com.arkivanov.essenty.lifecycle.doOnStop
 import com.uretouch.common.core.decompose.CancelableCoroutineScope
 import com.uretouch.common.core.decompose.cancelableCoroutineScope
 import com.uretouch.common.core.decompose.defaultClosableScope
@@ -24,6 +25,7 @@ import org.koin.core.scope.Scope
 internal class DefaultHistoryComponent(
     componentContext: ComponentContext,
     rootScope: Scope,
+    private val navigateToGenerationDetail: (id: String) -> Unit,
 ) : HistoryComponent,
     ComponentContext by componentContext,
     CancelableCoroutineScope by componentContext.cancelableCoroutineScope() {
@@ -45,10 +47,20 @@ internal class DefaultHistoryComponent(
         ).wrapToAny()
 
     init {
-        lifecycle.doOnResume { onRefresh() }
+        lifecycle.doOnResume {
+            feature.startUpdater()
+        }
+
+        lifecycle.doOnStop {
+            feature.stopUpdater()
+        }
     }
 
     override fun onRefresh() {
         feature.proceed(HistoryOnRefreshed())
+    }
+
+    override fun onGenerationClick(id: String) {
+        navigateToGenerationDetail(id)
     }
 }

@@ -14,6 +14,7 @@ import com.uretouch.feature.camera.logic.photoPreview.api.state.toUiState
 import com.uretouch.feature.camera.logic.photoPreview.internal.di.PhotoPreviewModule
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.PhotoPreviewFeature
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewOnBackClicked
+import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewOnGenerationModeClicked
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewOnProcessPhotoClicked
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewOnPromptChanged
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.state.PhotoPreviewState
@@ -78,5 +79,9 @@ internal class DefaultPhotoPreviewComponent(
 
     override fun onPromptChange(text: String) {
         feature.proceed(PhotoPreviewOnPromptChanged(prompt = text))
+    }
+
+    override fun onGenerationModeClick(modeId: String) {
+        feature.proceed(PhotoPreviewOnGenerationModeClicked(modeId = modeId))
     }
 }

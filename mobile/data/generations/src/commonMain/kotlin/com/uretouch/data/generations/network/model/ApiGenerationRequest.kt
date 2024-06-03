@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class ApiGenerationRequest(
     @SerialName("image") val image: ByteArray,
     @SerialName("prompt") val prompt: String,
+    @SerialName("mode") val modeId: String?,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -16,6 +17,7 @@ data class ApiGenerationRequest(
 
         if (!image.contentEquals(other.image)) return false
         if (prompt != other.prompt) return false
+        if (modeId != other.modeId) return false
 
         return true
     }
@@ -23,6 +25,7 @@ data class ApiGenerationRequest(
     override fun hashCode(): Int {
         var result = image.contentHashCode()
         result = 31 * result + prompt.hashCode()
+        result = 31 * result + modeId.hashCode()
         return result
     }
 }

@@ -1,15 +1,19 @@
 package com.uretouch.app.util
 
+import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import com.uretouch.domain.generations.util.ImageUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+
 
 internal class AndroidImageUtil(
     private val context: Context,
@@ -39,5 +43,17 @@ internal class AndroidImageUtil(
 
     override suspend fun getImage(path: String): ByteArray = withContext(Dispatchers.IO) {
         requireNotNull(context.contentResolver.openInputStream(Uri.parse(path))).use { it.buffered().readBytes() }
+    }
+
+    override suspend fun saveGeneration(url: String, prompt: String) {
+        val downloadManager = context.getSystemService<DownloadManager>() ?: error("DownloadManager required")
+        val request = DownloadManager.Request(url.toUri())
+            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+            .setAllowedOverRoaming(false)
+            .setTitle("URetouch")
+            .setMimeType("image/*")
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "image.jpg")
+        downloadManager.enqueue(request)
     }
 }

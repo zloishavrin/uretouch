@@ -7,4 +7,5 @@ interface HistoryComponent {
     val state: AnyStateFlow<HistoryUiState>
 
     fun onRefresh()
+    fun onGenerationClick(id: String)
 }

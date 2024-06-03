@@ -4,6 +4,7 @@ import com.uretouch.common.core.extensions.runCatchingCancellable
 import com.uretouch.domain.generations.interactor.GenerationsInteractor
 import com.uretouch.domain.generations.util.ImageUtil
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.BasePhotoPreviewAction
+import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewHandleLoadMode
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewHandlePhotoDeleted
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewHandlePhotoUploadSuccess
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.state.PhotoPreviewState
@@ -19,11 +20,11 @@ internal class PhotoPreviewAsyncWorker(
             is PhotoPreviewState.AsyncWorkerState.UploadingPhoto -> {
                 AsyncWorkerTask.ExecuteIfNotExistWithSameClass(state) {
                     runCatchingCancellable {
-                        generationsInteractor.createGeneration(path = state.photoPath, prompt = state.prompt)
+                        generationsInteractor.createGeneration(path = state.photoPath, prompt = state.prompt, modeId = state.selectedMode?.id)
                     }.onSuccess {
                         proceed(PhotoPreviewHandlePhotoUploadSuccess())
                     }.onFailure {
-
+                        proceed(PhotoPreviewHandlePhotoUploadSuccess())
                     }
                 }
             }
@@ -40,10 +41,21 @@ internal class PhotoPreviewAsyncWorker(
                 }
             }
 
+            is PhotoPreviewState.AsyncWorkerState.LoadingGenerationModes -> {
+                AsyncWorkerTask.ExecuteIfNotExist(state) {
+                    runCatchingCancellable {
+                        generationsInteractor.getGenerationModes()
+                    }.onSuccess {
+                        proceed(PhotoPreviewHandleLoadMode(it))
+                    }.onFailure {
+                        proceed(PhotoPreviewHandleLoadMode(listOf()))
+                    }
+                }
+            }
+
             is PhotoPreviewState.Initial,
             is PhotoPreviewState.NavigationState,
             -> AsyncWorkerTask.Cancel()
-
         }
     }
 }

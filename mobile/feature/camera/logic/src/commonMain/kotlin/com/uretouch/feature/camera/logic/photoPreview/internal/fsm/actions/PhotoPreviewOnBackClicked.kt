@@ -10,7 +10,10 @@ internal class PhotoPreviewOnBackClicked() : BasePhotoPreviewAction() {
     inner class Blank : Transition<PhotoPreviewState.Initial, PhotoPreviewState.AsyncWorkerState.DeletingPhoto>() {
         override fun transform(state: PhotoPreviewState.Initial): PhotoPreviewState.AsyncWorkerState.DeletingPhoto {
             return PhotoPreviewState.AsyncWorkerState.DeletingPhoto(
-                photoPath = state.photoPath
+                photoPath = state.photoPath,
+                prompt = state.prompt,
+                selectedMode = state.selectedMode,
+                generationModes = state.generationModes,
             )
         }
     }

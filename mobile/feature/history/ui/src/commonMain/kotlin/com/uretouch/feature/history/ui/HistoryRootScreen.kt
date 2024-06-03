@@ -26,6 +26,12 @@ fun HistoryRootScreen(
                     component = child.component
                 )
             }
+
+            is HistoryRootComponent.Child.GenerationDetail -> {
+                GenerationDetailScreen(
+                    component = child.component
+                )
+            }
         }
     }
 }

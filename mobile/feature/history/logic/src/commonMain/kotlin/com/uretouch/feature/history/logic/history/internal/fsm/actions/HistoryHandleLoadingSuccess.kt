@@ -17,4 +17,13 @@ internal class HistoryHandleLoadingSuccess(
             )
         }
     }
+
+    @Edge("LoadingSuccess")
+    inner class FromLoaded : Transition<HistoryState.Loaded, HistoryState.Loaded>() {
+        override fun transform(state: HistoryState.Loaded): HistoryState.Loaded {
+            return HistoryState.Loaded(
+                generations = generations
+            )
+        }
+    }
 }

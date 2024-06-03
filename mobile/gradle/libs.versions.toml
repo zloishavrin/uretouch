@@ -25,6 +25,7 @@ composeCompiler = "1.5.11"
 ksp = "2.0.0-1.0.21"
 androidxSecurityCrypto = "1.1.0-alpha06"
 peekaboo = "0.5.2"
+sqlDelight = "2.0.1"
 
 [libraries]
 
@@ -69,6 +70,10 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-securityCrypto = { module = "androidx.security:security-crypto-ktx", version.ref = "androidxSecurityCrypto" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+sqlDelight-androidDriver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+sqlDelight-coroutinesExtensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+sqlDelight-nativeDriver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
+
 peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
 peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
 
@@ -77,6 +82,7 @@ kotlinGradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plu
 
 [plugins]
 
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

@@ -1,5 +1,6 @@
 package com.uretouch.feature.root.logic.internal.di
 
+import com.uretouch.common.core.database.di.CoreDatabaseModule
 import com.uretouch.common.core.eventDispatcher.AuthEventDispatcher
 import com.uretouch.common.core.logouter.LogoutUseCase
 import com.uretouch.common.core.network.di.CoreNetworkModule
@@ -12,6 +13,8 @@ import com.uretouch.domain.generations.di.DomainGenerationsModule
 import com.uretouch.domain.onboarding.logic.di.DomainOnboardingModule
 import com.uretouch.feature.root.logic.api.RootDependencies
 import com.uretouch.feature.root.logic.internal.logouter.DefaultLogoutUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -24,8 +27,8 @@ internal object RootModule {
                 factory { dependencies.settingsFactory }
                 factory { dependencies.settingsOpener }
                 factory { dependencies.imageUtil }
+                single { Dispatchers.IO }
                 single { get<SettingsFactory>().createSettings() }
-
                 singleOf(::AuthEventDispatcher)
                 singleOf(::DefaultLogoutUseCase) bind LogoutUseCase::class
             },
@@ -38,6 +41,7 @@ internal object RootModule {
             DomainAuthModule.module,
             DomainGenerationsModule.module,
         ) + listOf(
+            CoreDatabaseModule.module,
             CoreNetworkModule.module,
         )
     }

@@ -1,5 +1,6 @@
 package com.uretouch.feature.camera.logic.photoPreview.internal.fsm.state
 
+import com.uretouch.domain.generations.model.GenerationMode
 import ru.kontur.mobile.visualfsm.State
 
 internal sealed class PhotoPreviewState : State {
@@ -7,16 +8,27 @@ internal sealed class PhotoPreviewState : State {
     data class Initial(
         val photoPath: String,
         val prompt: String,
+        val generationModes: List<GenerationMode>,
+        val selectedMode: GenerationMode?,
     ) : PhotoPreviewState()
 
     sealed class AsyncWorkerState : PhotoPreviewState() {
+        data class LoadingGenerationModes(
+            val photoPath: String,
+        ) : AsyncWorkerState()
+
         data class UploadingPhoto(
             val photoPath: String,
             val prompt: String,
+            val selectedMode: GenerationMode?,
+            val generationModes: List<GenerationMode>,
         ) : AsyncWorkerState()
 
         data class DeletingPhoto(
             val photoPath: String,
+            val prompt: String,
+            val selectedMode: GenerationMode?,
+            val generationModes: List<GenerationMode>,
         ) : AsyncWorkerState()
     }
 
@@ -28,7 +40,7 @@ internal sealed class PhotoPreviewState : State {
 
     companion object {
         fun initial(photoPath: String): PhotoPreviewState {
-            return Initial(photoPath = photoPath, prompt = "")
+            return AsyncWorkerState.LoadingGenerationModes(photoPath = photoPath)
         }
     }
 }

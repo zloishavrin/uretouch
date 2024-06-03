@@ -1,5 +1,6 @@
 package com.uretouch.common.ui.kit.compose.widget
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -16,6 +17,7 @@ fun AppTopBar(
     title: String,
     modifier: Modifier = Modifier,
     onBackClick: (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
         modifier = modifier,
@@ -35,6 +37,7 @@ fun AppTopBar(
                     )
                 }
             }
-        }
+        },
+        actions = actions
     )
 }

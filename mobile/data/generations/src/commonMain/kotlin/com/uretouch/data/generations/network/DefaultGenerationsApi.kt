@@ -1,6 +1,7 @@
 package com.uretouch.data.generations.network
 
 import com.uretouch.data.generations.network.model.ApiGeneration
+import com.uretouch.data.generations.network.model.ApiGenerationMode
 import com.uretouch.data.generations.network.model.ApiGenerationRequest
 import com.uretouch.data.generations.network.model.ApiGenerationResponse
 import io.ktor.client.HttpClient
@@ -9,7 +10,6 @@ import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.append
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -27,11 +27,10 @@ internal class DefaultGenerationsApi(
         }.body()
     }
 
-    override suspend fun getGenerations(ids: List<String>): List<ApiGeneration> {
+    override suspend fun getGeneration(id: String): ApiGeneration {
         return httpClient.get {
             url {
-                path("/api/user/generation")
-                parameter("ids", ids.joinToString())
+                path("/api/user/generation/${id}")
             }
         }.body()
     }
@@ -57,6 +56,14 @@ internal class DefaultGenerationsApi(
                     }
                 )
             )
+        }.body()
+    }
+
+    override suspend fun getGenerationModes(): List<ApiGenerationMode> {
+        return httpClient.get {
+            url {
+                path("/api/generation/private/mods")
+            }
         }.body()
     }
 }

@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS GenerationModeEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+getAll:
+SELECT * FROM GenerationModeEntity;
+
+deleteAll:
+DELETE FROM GenerationModeEntity;
+
+insert:
+INSERT OR REPLACE INTO GenerationModeEntity(id, name, description)
+VALUES ?;
