@@ -1,0 +1,9 @@
+.button {
+  font-size: 2vw;
+  padding: 0.5vw 0;
+  font-weight: 600;
+}
+
+.active {
+  border-bottom: 3px solid rgb(255, 196, 44);
+}

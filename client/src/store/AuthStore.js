@@ -4,8 +4,6 @@ import { logout, checkAuth } from "../service/AuthService";
 export default class AuthStore {
   token = localStorage.getItem("refreshToken");
   isLoading = false;
-  errorLogin = "";
-  errorRegistration = "";
   constructor() {
     makeAutoObservable(this);
   }
@@ -16,14 +14,6 @@ export default class AuthStore {
 
   setLoading(bool) {
     this.isLoading = bool;
-  }
-
-  setErrorLogin(message) {
-    this.errorLogin = message;
-  }
-
-  setRegistrationError(message) {
-    this.errorRegistration = message;
   }
 
   login(data) {

@@ -83,7 +83,7 @@
 .loader {
   width: 2.5vw;
   height: 2.5vw;
-  border: 5px solid #FFF;
+  border: 0.3vw solid #FFF;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

@@ -1,0 +1,11 @@
+.header{
+  padding-top: 2vw;
+  padding-bottom: 6vw;
+}
+
+.headerContainer{
+  padding: 0 25vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
