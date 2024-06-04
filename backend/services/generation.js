@@ -6,7 +6,7 @@ const FormData = require('form-data');
 class GenerationService {
 
     async userHistory(userId) {
-        const generations = await GenerationModel.find({user: userId});
+        const generations = await GenerationModel.find({user: userId}).sort({ date: -1 });;
         return generations;
     }
 
@@ -29,6 +29,7 @@ class GenerationService {
         const form = new FormData();
         form.append('image', file.buffer, file.originalname);
         const prompt = mode.prompt || mode;
+        console.log(prompt);
         const newGeneration = await GenerationModel.create({user: user.id, prompt, status: 'inProgress', original: 'https://24tort.ru/img/Origin%D0%B1%D0%B0%D0%B1%D1%83%D0%BB%D0%B5_9.png'});
         return newGeneration;
     }

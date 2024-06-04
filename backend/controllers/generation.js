@@ -9,7 +9,6 @@ class generationController {
             const mode = req.body.mode;
             const file = req.file;
             let prompt = req.body.prompt;
-            
             if(!file) {
                 throw ApiError.BadRequestError('Не загружен файл в форме');
             }
@@ -20,7 +19,12 @@ class generationController {
                 throw ApiError.BadRequestError('Файл должен быть изображением');
             }
             else if(!prompt) {
-                prompt = await generationService.getMode(mode);
+                try {
+                    prompt = await generationService.getMode(mode);
+                }
+                catch(error)  {
+                    throw ApiError.BadRequestError('Такого режима не существует');
+                }
             }
             const newGeneration = await generationService.createGeneration(userData, prompt, file);
 
