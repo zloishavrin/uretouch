@@ -55,7 +55,6 @@ internal class DefaultCameraComponent(
         feature.observeState()
             .filterIsInstance<CameraState.NavigationState>()
             .onEach { state ->
-                println("1234 navigateToPhotoPreview $state")
                 when (state) {
                     is CameraState.NavigationState.ToPhotoPreview -> navigateToPhotoPreview(state.path)
                 }

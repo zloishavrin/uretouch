@@ -22,7 +22,7 @@ internal class DefaultGenerationsRepository(
     }
 
     override suspend fun createGeneration(image: ByteArray, prompt: String, modeId: String?): String {
-        return generationsApi.createGeneration(ApiGenerationRequest(image = image, prompt = prompt, modeId = modeId)).generationId
+        return generationsApi.createGeneration(ApiGenerationRequest(image = image, prompt = prompt, mode = modeId)).generationId
     }
 
     override suspend fun getCacheGenerationModes(): List<GenerationMode> {

@@ -35,7 +35,6 @@ internal class GenerationDetailAsyncWorker(
             is GenerationDetailState.AsyncWorkerState.DownloadGeneration -> {
                 AsyncWorkerTask.ExecuteIfNotExistWithSameClass(state) {
                     runCatchingCancellable {
-                        println("1234 state.urls ${state.urls}")
                         state.urls.forEach { url ->
                             generationsInteractor.saveGenerationIntoDevice(generationUrl = url, prompt = state.sourceState.generation.prompt)
                             delay(1000)

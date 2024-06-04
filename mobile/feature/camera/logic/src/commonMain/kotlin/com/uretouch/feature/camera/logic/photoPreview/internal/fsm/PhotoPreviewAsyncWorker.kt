@@ -20,6 +20,7 @@ internal class PhotoPreviewAsyncWorker(
             is PhotoPreviewState.AsyncWorkerState.UploadingPhoto -> {
                 AsyncWorkerTask.ExecuteIfNotExistWithSameClass(state) {
                     runCatchingCancellable {
+                        println("1234 ${state.selectedMode?.id}")
                         generationsInteractor.createGeneration(path = state.photoPath, prompt = state.prompt, modeId = state.selectedMode?.id)
                     }.onSuccess {
                         proceed(PhotoPreviewHandlePhotoUploadSuccess())

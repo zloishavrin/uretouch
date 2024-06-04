@@ -45,6 +45,7 @@ internal class DefaultGenerationsApi(
                 MultiPartFormDataContent(
                     parts = formData {
                         append("prompt", request.prompt)
+                        request.mode?.let { append("mode", it) }
                         append(
                             key = "image",
                             filename = "photo.png",
