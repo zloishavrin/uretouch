@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { login, logout, registration, checkAuth } from "../service/AuthService";
+import { logout, checkAuth } from "../service/AuthService";
 
 export default class AuthStore {
   token = localStorage.getItem("refreshToken");
@@ -26,17 +26,11 @@ export default class AuthStore {
     this.errorRegistration = message;
   }
 
-  async login(email, password) {
-    try {
-      const data = await login(email, password);
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      this.setAuth(data.refreshToken);
-    } catch (e) {
-      this.setErrorLogin(e.message);
-    }
+  login(data) {
+    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem("refreshToken", data.refreshToken);
+    this.setAuth(data.refreshToken);
   }
-
 
   async logout() {
     const refreshToken = localStorage.getItem("refreshToken");

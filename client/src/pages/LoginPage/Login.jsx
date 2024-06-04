@@ -6,14 +6,17 @@ import { Context } from "../..";
 import { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { login } from "../../service/AuthService";
+import { useState } from "react";
 
 export const Login = observer(() => {
+  const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
       email: "",
@@ -25,15 +28,20 @@ export const Login = observer(() => {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    authStore.login(data.email, data.password);
-  };
-
-  useEffect(() => {
-    if (authStore.token) {
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const resp = await login(data.email, data.password);
+      authStore.login(resp);
       navigate("/");
+    } catch (e) {
+      if (e.response.status == 400) {
+        setError("Такой аккаунт уже существут!");
+      }
+    } finally{
+      setLoading(false);
     }
-  }, [authStore.token, navigate]);
+  };
 
   return (
     <div className={styles.login}>
@@ -59,11 +67,17 @@ export const Login = observer(() => {
             <p className={styles.inputError}>{errors.password?.message}</p>
           </div>
           <div className={styles.inputContainer}>
-            {authStore.errorLogin && (
+            {error && (
               <div className={styles.error}>Неправильный логин или пароль</div>
             )}
           </div>
-          <button className={`${styles.loginBtn} btn`}>Войти</button>
+          <button className={`${styles.loginBtn} btn`}>
+            {isLoading ? (
+              <span className={styles.loader}></span>
+            ) : (
+              "Войти"
+            )}
+          </button>
         </form>
         <p className={styles.loginText}>
           У вас еще нет аккаунта?
