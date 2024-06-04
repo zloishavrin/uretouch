@@ -24,7 +24,7 @@ $authHost.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (
-      error.response.status == 401 &&
+      error.response.status === 401 &&
       error.config &&
       !error.config._isRetry
     ) {
@@ -34,7 +34,7 @@ $authHost.interceptors.response.use(
         const response = await axios.post(`${API_URL}/auth/refresh`, {
           refreshToken,
         });
-        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("accessToken", response.data.accessToken);
         return $authHost.request(originalRequest);
       } catch (e) {
         console.log("НЕ АВТОРИЗОВАН");

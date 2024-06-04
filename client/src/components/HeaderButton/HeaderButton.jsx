@@ -12,6 +12,7 @@ export const HeaderButton = ({ currentPath, path, title }) => {
   return (
     <div className={HeaderButtonStyles.join(' ')}>
       <Link to={path}>{title}</Link>
+      <div></div>
     </div>
   );
 };

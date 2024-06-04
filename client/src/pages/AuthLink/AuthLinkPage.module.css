@@ -15,6 +15,7 @@
   width: 35vw;
   border-radius: 1.2vw;
   background: rgb(24, 24, 24);
+  font-weight: 500;
 }
 
 .authBox p{
