@@ -9,3 +9,8 @@ export const getApiKeyUser = async () => {
   const { data } = await $authHost.get("/user/api-key");
   return data;
 };
+
+export const getHistoryList = async () => {
+  const { data } = await $authHost.get("/user/history");
+  return data;
+};

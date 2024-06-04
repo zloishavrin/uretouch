@@ -35,7 +35,6 @@ const App = observer(() => {
         <TransitionGroup>
           <CSSTransition key={location.key} classNames="fade" timeout={1000}>
             <Routes>
-              <Route path="/" element={authStore.token ? <Profile /> : <Start />} />
               <Route
                 path="/user"
                 element={authStore.token ? <Profile /> : <Start />}
@@ -50,19 +49,19 @@ const App = observer(() => {
               />
               <Route
                 path="/start"
-                element={authStore.token ? <Navigate to="/" /> : <Start />}
+                element={authStore.token ? <Navigate to="/user" /> : <Start />}
               />
               <Route
                 path="/login"
-                element={authStore.token ? <Navigate to="/" /> : <Login />}
+                element={authStore.token ? <Navigate to="/user" /> : <Login />}
               />
               <Route
                 path="/registration"
-                element={authStore.token ? <Navigate to="/" /> : <Registration />}
+                element={authStore.token ? <Navigate to="/user" /> : <Registration />}
               />
               <Route
                 path="/auth"
-                element={authStore.token ? <Navigate to="/" /> : <AuthLink />}
+                element={authStore.token ? <Navigate to="/user" /> : <AuthLink />}
               />
             </Routes>
           </CSSTransition>

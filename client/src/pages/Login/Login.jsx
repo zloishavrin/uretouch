@@ -33,12 +33,12 @@ export const Login = observer(() => {
     try {
       const resp = await login(data.email, data.password);
       authStore.login(resp);
-      navigate("/");
+      navigate("/history");
     } catch (e) {
       if (e.response.status == 400) {
         setError("Такой аккаунт уже существут!");
       }
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -66,17 +66,8 @@ export const Login = observer(() => {
             />
             <p className={styles.inputError}>{errors.password?.message}</p>
           </div>
-          <div className={styles.inputContainer}>
-            {error && (
-              <div className={styles.error}>Неправильный логин или пароль</div>
-            )}
-          </div>
           <button className={`${styles.loginBtn} btn`}>
-            {isLoading ? (
-              <span className={styles.loader}></span>
-            ) : (
-              "Войти"
-            )}
+            {isLoading ? <span className={styles.loader}></span> : "Войти"}
           </button>
         </form>
         <p className={styles.loginText}>
@@ -85,6 +76,11 @@ export const Login = observer(() => {
             Зарегистрироваться
           </Link>
         </p>
+        <div className={styles.inputContainer}>
+          {error && (
+            <p className={styles.error}>Неправильный логин или пароль</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ import { registration } from "../../service/AuthService";
 import { SVGSelector } from "../../components/SVGSelector/SVGSelector";
 
 export const Registration = observer(() => {
-
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
@@ -37,7 +36,7 @@ export const Registration = observer(() => {
       if (e.response.status == 400) {
         setError("Такой аккаунт уже существут!");
       }
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -46,10 +45,7 @@ export const Registration = observer(() => {
     <div className={styles.regist}>
       <div className={styles.registBox}>
         <Link to="/login" className={styles.registLink}>
-          <SVGSelector 
-            type='back'
-            className={styles.registLinkImage}
-          />
+          <SVGSelector type="back" className={styles.registLinkImage} />
         </Link>
         <p className={styles.registTitle}>Регистрация</p>
         <form className={styles.registForm} onSubmit={handleSubmit(onSubmit)}>
@@ -84,17 +80,19 @@ export const Registration = observer(() => {
             />
             <p className={styles.inputError}>{errors.password2?.message}</p>
           </div>
-          <div className={styles.inputContainer}>
-            {error && (
-              <div className={styles.error}>Такой аккаунт уже существует!</div>
-            )}
-          </div>
           <button className={`${styles.registBtn} btn`}>
-            {
-              isLoading ? <span className={styles.loader}></span> : "Зарегистрироваться"
-            }
+            {isLoading ? (
+              <span className={styles.loader}></span>
+            ) : (
+              "Зарегистрироваться"
+            )}
           </button>
         </form>
+        <div className={styles.inputContainer}>
+          {error && (
+            <div className={styles.error}>Такой аккаунт уже существует!</div>
+          )}
+        </div>
       </div>
     </div>
   );

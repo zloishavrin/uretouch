@@ -1,0 +1,15 @@
+.historyItem{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18vw;
+  height: 18vh;
+}
+
+
+.historyImgBox{
+  cursor: pointer;
+  border-radius: 0.7vw;
+  width: 100%;
+  height: 100%;
+}

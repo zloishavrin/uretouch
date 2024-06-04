@@ -1,5 +1,7 @@
 import { makeAutoObservable } from "mobx";
-import { logout, checkAuth } from "../service/AuthService";
+import { logout } from "../service/AuthService";
+import { API_URL } from "../service/api";
+import axios from "axios";
 
 export default class AuthStore {
   token = localStorage.getItem("refreshToken");
@@ -38,7 +40,7 @@ export default class AuthStore {
     const refreshToken = localStorage.getItem("refreshToken");
     this.setLoading(true);
     try {
-      const data = await checkAuth(refreshToken);
+      const {data} = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       this.setAuth(data.refreshToken);

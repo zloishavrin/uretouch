@@ -24,7 +24,6 @@ export const Profile = observer(() => {
       }
     };
     fetchUser();
-    console.log(apiKeyUser);
   }, []);
 
   const fetchApiKey = async () => {
