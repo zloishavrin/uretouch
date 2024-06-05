@@ -4,7 +4,7 @@ const translateSerice = require('../services/translate');
 
 class generationController {
 
-    async createPrivate(req, res, next) {
+    async create(req, res, next) {
         try {
             const userData = req.user;
             const mode = req.body.mode;

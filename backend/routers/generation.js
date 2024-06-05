@@ -18,7 +18,14 @@ generationRouter.post(
     '/private',
     upload.single('image'),
     PrivateAuthMiddleware,
-    generationController.createPrivate
+    generationController.create
+);
+
+generationRouter.post(
+    '/public',
+    upload.single('image'),
+    PublicAuthMiddleware,
+    generationController.create
 );
 
 generationRouter.get(
@@ -27,8 +34,10 @@ generationRouter.get(
     generationController.getMods
 )
 
-generationRouter.post(
-    '/public',
+generationRouter.get(
+    '/public/mods',
+    PublicAuthMiddleware,
+    generationController.getMods
 );
 
 module.exports = generationRouter;
