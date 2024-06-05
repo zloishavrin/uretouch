@@ -35,6 +35,7 @@ docker-compose down
 |SMTP_SERVICE|Название сервиса для SMTP-протокола|
 |SMTP_USER|Пользователь для SMTP-сервиса|
 |SMTP_PASSWORD|Пароль пользователя SMTP-сервиса|
+|YANDEX_TRANSLATE_API_KEY|API-ключ для Яндекс.Translate|
 
 Пример ENV-файла:
 

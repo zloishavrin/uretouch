@@ -1,5 +1,6 @@
 const generationService = require('../services/generation');
 const ApiError = require('../exceptions/api');
+const translateSerice = require('../services/translate');
 
 class generationController {
 
@@ -9,6 +10,7 @@ class generationController {
             const mode = req.body.mode;
             const file = req.file;
             let prompt = req.body.prompt;
+
             if(!file) {
                 throw ApiError.BadRequestError('Не загружен файл в форме');
             }
@@ -26,6 +28,18 @@ class generationController {
                     throw ApiError.BadRequestError('Такого режима не существует');
                 }
             }
+            else if(!mode) {
+                try {
+                    prompt = await translateSerice.translate(prompt);
+                }
+                catch(error) {
+                    console.log(error);
+                    throw ApiError.InternalServerError('Ошибка перевода промпта');
+                }
+            }
+
+            console.log(prompt);
+
             const newGeneration = await generationService.createGeneration(userData, prompt, file);
 
             res.json({ generation_id: newGeneration._id });
