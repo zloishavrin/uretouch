@@ -29,6 +29,13 @@ export const SVGSelector = ({ type, className }) => {
                     </g>
                 </svg>
             )
+        case 'arrow-down' :
+            return (
+                <svg width="26.643799" height="23.007812" viewBox="0 0 26.6438 23.0078" className={className}>
+	                <defs/>
+	                <path id="Arrow 2" d="M15.32 16.17L23.22 8.27C24.01 7.48 25.25 7.48 26.04 8.27C26.84 9.06 26.84 10.3 26.04 11.1L14.73 22.41C13.94 23.2 12.69 23.2 11.9 22.41L0.59 11.1C-0.2 10.3 -0.2 9.06 0.59 8.27C1.38 7.48 2.63 7.48 3.42 8.27L11.32 16.17L11.32 0L15.32 0L15.32 16.17Z" fill="#FFFFFF" fillOpacity="1.000000" fillRule="evenodd"/>
+                </svg>
+            )
         default:
             return ''
     }

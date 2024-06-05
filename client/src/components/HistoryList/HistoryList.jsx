@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getHistoryList } from "../../service/UserService";
 import styles from "./HistoryList.module.css";
 import { HistoryItem } from "../HistoryItem/HistoryItem";
+import { Link } from  "react-router-dom";
 
 export const HistoryList = () => {
   const [history, setHistory] = useState([]);
@@ -27,6 +28,14 @@ export const HistoryList = () => {
 
   if (isLoading) {
     return <span className={styles.loader}></span>;
+  }
+
+  if (history.length === 0) {
+    return (
+      <div className={styles.historyEmpty}>
+        Пока что у Вас нет истории генераций. <Link className={styles.historyEmptyLink} to="/generation">Перейдите к генерации.</Link>
+      </div>
+    );
   }
 
   return (

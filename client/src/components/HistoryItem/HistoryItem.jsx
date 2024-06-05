@@ -1,18 +1,35 @@
-import React from 'react'
-import styles from './HistoryItem.module.css';
+import React from "react";
+import styles from "./HistoryItem.module.css";
+import { Popup } from "../Popup/Popup";
+import { useState } from "react";
+import { History } from "../AboutHistory/History";
 
-export const HistoryItem = ({imgOriginal, listImg, prompt}) => {
+export const HistoryItem = ({ imgOriginal, listImg, prompt }) => {
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
 
   const backgroundImg = {
     background: `url(${imgOriginal})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     backgroundPosition: "center",
-  }
+  };
+
+  const handleOpenPopup = () => {
+    setIsOpenPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsOpenPopup(false);
+  };
+
   return (
-    <li className={styles.historyItem}>
-      <div className={styles.historyImgBox} style={backgroundImg}>
-      </div>
-    </li>
-  )
-}
+    <>
+      <Popup open={isOpenPopup} close={handleClosePopup}>
+        <History prompt={prompt} listImg={listImg} />
+      </Popup>
+      <li className={styles.historyItem} onClick={handleOpenPopup}>
+        <div className={styles.historyImgBox} style={backgroundImg}></div>
+      </li>
+    </>
+  );
+};

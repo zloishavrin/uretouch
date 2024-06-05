@@ -1,0 +1,48 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(36, 36, 36, 0.521);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  position: relative;
+  width: 70vw;
+  border-radius: 0.6vw;
+  box-shadow: 0px 0px 0.5vw 0.3vw rgba(0, 0, 0, 0.25);
+  background: rgb(29, 29, 29);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.buttonClose {
+  z-index: 9999;
+  position: absolute;
+  top: 1vw;
+  right: 2vw;
+  background: transparent;
+  color: #fff;
+  font-size: 2.5vw;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.button:hover {
+  background-color: rgb(118, 172, 242);
+}
+
+.content {
+  position: relative;
+  width: 95%;
+  height: 100%;
+  padding-top: 5vw;
+  padding-bottom: 3vw;
+}

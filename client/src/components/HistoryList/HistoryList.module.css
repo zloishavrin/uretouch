@@ -1,8 +1,24 @@
-.historyList{
+.historyList {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 18vw);
   gap: 2vw;
+}
+
+.historyEmpty {
+  position: absolute;
+  width: 60vw;
+  font-size: 2.5vw;
+  top: 10vw;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  line-height: 2.6vw;
+}
+
+.historyEmptyLink {
+  color: rgb(255, 196, 44);
+  border-bottom: 0.2vw solid rgb(255, 196, 44);
 }
 
 .loader {
@@ -12,7 +28,7 @@
   transform: translate(-50%, -50%);
   width: 2.5vw;
   height: 2.5vw;
-  border: 5px solid #fff;
+  border: 0.3vw solid #fff;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

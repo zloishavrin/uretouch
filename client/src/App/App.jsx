@@ -9,7 +9,7 @@ import { useContext, useEffect } from "react";
 import { AuthLink } from "../pages/AuthLink/AuthLink";
 import { Profile } from "../pages/Profile/Profile";
 import { Generation } from "../pages/Generation/Generation";
-import { Hisrory } from "../pages/History/Hisrory";
+import { Hisrory } from "../pages/History/History";
 import { Header } from "../components/Header/Header";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from "react-router-dom";
@@ -25,7 +25,7 @@ const App = observer(() => {
   }, []);
 
   if (authStore.isLoading) {
-    return <div>Загрузка...</div>;
+    return <div className="loader"></div>;
   }
 
   return (
