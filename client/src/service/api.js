@@ -24,20 +24,35 @@ $authHost.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (
+      error.response &&
       error.response.status === 401 &&
-      error.config &&
-      !error.config._isRetry
+      !originalRequest._isRetry
     ) {
       originalRequest._isRetry = true;
       try {
         const refreshToken = localStorage.getItem("refreshToken");
-        const response = await axios.post(`${API_URL}/auth/refresh`, {
-          refreshToken,
-        });
+        if (!refreshToken) {
+          throw new Error("Refresh token is missing");
+        }
+        const response = await axios.post(
+          `${API_URL}/auth/refresh`,
+          { refreshToken },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         localStorage.setItem("accessToken", response.data.accessToken);
-        return $authHost.request(originalRequest);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
+        originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
+        return $authHost(originalRequest);
       } catch (e) {
-        console.log("НЕ АВТОРИЗОВАН");
+        console.log("Not Authorized:", e);
+        if (e.response && e.response.data) {
+          
+        }
+        throw e;
       }
     }
     throw error;

@@ -14,3 +14,13 @@ export const getHistoryList = async () => {
   const { data } = await $authHost.get("/user/history");
   return data;
 };
+
+export const getGenerationMode = async () => {
+  const { data } = await $authHost.get("/generation/private/mods");
+  return data;
+};
+
+export const setGeneration = async  (formData)   =>   {
+  const  { data  }  = await  $authHost.post("/generation/private", {formData});
+  return data;
+}

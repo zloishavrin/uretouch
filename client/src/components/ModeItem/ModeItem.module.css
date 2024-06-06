@@ -1,0 +1,12 @@
+.modeBtn{
+  padding: 0.6vw;
+  width: 12vw;
+  justify-content: center;
+  font-size: 1.25vw;
+  border-radius: 0.6vw;
+}
+
+.active{
+  color: #222;
+  background-color: #fff;
+}

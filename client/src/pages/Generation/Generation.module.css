@@ -1,0 +1,97 @@
+.generationContainer {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2vw;
+}
+
+.generationDragonDrop {
+  display: block;
+  width: 55vw;
+  height: 100%;
+  margin-bottom: 2vw;
+}
+
+.dropzone{
+  width: auto;
+  height: auto;
+}
+
+.generationLoadContainer{
+  cursor: pointer;
+  border: 0.4vw solid #181717;
+  border-style: dashed;
+  border-radius: 1.8vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12vw;
+}
+
+.generationLoadContainerSvg {
+  width: 8vw;
+  height: 8vh;
+}
+
+.generationLoadContainerSvg path {
+  fill: #181717;
+}
+
+.generationModeContainer {
+  background-color: #181717;
+  display: flex;
+  flex-direction: column;
+  width: 55vw;
+  padding: 1vw;
+  border-radius: 0.6vw;
+  font-size: 1.25vw;
+}
+
+.generationModeList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5vw;
+}
+
+.generationBtn {
+  padding: 0.6vw;
+  width: 12vw;
+  justify-content: center;
+  font-size: 1.25vw;
+  border-radius: 0.6vw;
+}
+
+.generationBtn:first-of-type{
+  align-self: flex-end;
+  margin-top: 1vw;
+}
+
+.active {
+  color: #222;
+  background-color: #fff;
+}
+
+.generationTextArea{
+  resize: none;
+  width: 53vw;
+  height: 15vh;
+  padding: 1vw;
+  background-color: #242424;
+  color: #fff;
+  font-size: 1.25vw;
+  border-radius: 0.6vw;
+}
+
+.generationImgBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.generationImgLoad{
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 50vw;
+  height: 50vh;
+}
