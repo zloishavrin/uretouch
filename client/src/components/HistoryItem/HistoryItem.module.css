@@ -6,6 +6,38 @@
   height: 18vh;
 }
 
+.historyItemLoad{
+  align-items: center;
+  justify-content: center;
+  width: 18vw;
+  height: 18vh;
+  position: relative;
+  opacity: 0.4;
+}
+
+.loader {
+  position: absolute;
+  width: 2.5vw;
+  height: 2.5vw;
+  top: 45%;
+  left: 45%;
+  border: 0.3vw solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 .historyImgBox{
   cursor: pointer;

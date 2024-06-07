@@ -4,7 +4,7 @@ import { Popup } from "../Popup/Popup";
 import { useState } from "react";
 import { History } from "../AboutHistory/History";
 
-export const HistoryItem = ({ imgOriginal, listImg, prompt }) => {
+export const HistoryItem = ({ imgOriginal, listImg, prompt, status }) => {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
   const backgroundImg = {
@@ -13,6 +13,17 @@ export const HistoryItem = ({ imgOriginal, listImg, prompt }) => {
     backgroundSize: "contain",
     backgroundPosition: "center",
   };
+
+  console.log(status);
+
+  if (status === "inProgress") {
+    return (
+      <li className={styles.historyItemLoad}>
+        <div className={styles.loader}></div>
+        <div className={styles.historyImgBox} style={backgroundImg}></div>
+      </li>
+    );
+  }
 
   const handleOpenPopup = () => {
     setIsOpenPopup(true);

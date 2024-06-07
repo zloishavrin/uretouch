@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { getGenerationMode } from "../../service/UserService";
 import { ModeItem } from "../../components/ModeItem/ModeItem";
 import styles from "./Generation.module.css";
 import { useDropzone } from "react-dropzone";
 import { SVGSelector } from "../../components/SVGSelector/SVGSelector";
 import { $authHost } from "../../service/api";
+import { getGeneration } from "../../service/UserService";
+import { Slider } from "../../components/Slider/Slider";
 
 export const Generation = () => {
   const [modeList, setModeList] = useState([]);
@@ -13,6 +15,9 @@ export const Generation = () => {
   const [file, setFile] = useState(null);
   const [customPrompt, setCustomPrompt] = useState("");
   const [typeMode, setTypeMode] = useState("");
+  const [generationIds, setGenerationIdsList] = useState([]);
+  const [generationList, setGenerationList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
@@ -75,6 +80,11 @@ export const Generation = () => {
       return;
     }
 
+    if (customPrompt === "" && typeMode === "") {
+      alert("Вы не выбрали мод");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", file);
     formData.append("mode", typeMode);
@@ -82,11 +92,36 @@ export const Generation = () => {
 
     try {
       const response = await $authHost.post("/generation/private", formData);
-      console.log(response.data);
+      const newGenerationId = response.data.generation_id;
+      setLoading(true);
+      console.log(isLoading);
+      setGenerationIdsList((prev) => [...prev, newGenerationId]);
+      setCustomPrompt("");
+      setTypeMode("");
+      setActiveBtn(null);
+      setFile(null);
     } catch (e) {
       console.log(e.message);
     }
   };
+
+  const fetchGeneration = useCallback(async () => {
+    try {
+      if (generationIds.length > 0) {
+        const data = await getGeneration(generationIds.join(","));
+        setGenerationList(data);
+      }
+    } catch (e) {
+      console.error(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [generationIds]);
+
+  useEffect(() => {
+    const intervalId = setInterval(fetchGeneration, 5000);
+    return () => clearInterval(intervalId);
+  }, [fetchGeneration]);
 
   return (
     <div className="container">
@@ -134,6 +169,7 @@ export const Generation = () => {
             <textarea
               className={styles.generationTextArea}
               placeholder="Введите текст"
+              value={customPrompt}
               onChange={(e) => setCustomPrompt(e.target.value)}
             ></textarea>
           )}
@@ -143,6 +179,17 @@ export const Generation = () => {
           >
             Запустить
           </button>
+        </div>
+        <div>
+          {generationList.map((item) => (
+            <div className={styles.generationListContainer} key={item._id}>
+              {isLoading ? (
+                <span className="loader"></span>
+              ) : (
+                <Slider listImg={item.url} status={item.status} />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

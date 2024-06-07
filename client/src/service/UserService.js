@@ -20,7 +20,14 @@ export const getGenerationMode = async () => {
   return data;
 };
 
-export const setGeneration = async  (formData)   =>   {
-  const  { data  }  = await  $authHost.post("/generation/private", {formData});
+export const setGeneration = async (formData) => {
+  const { data } = await $authHost.post("/generation/private", { formData });
   return data;
-}
+};
+
+export const getGeneration = async (generationId) => {
+  const { data } = await $authHost.get("/user/generations/", {
+    params: { id: generationId },
+  });
+  return data;
+};

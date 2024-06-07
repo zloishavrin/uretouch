@@ -3,6 +3,7 @@
   display: grid;
   grid-template-columns: repeat(4, 18vw);
   gap: 2vw;
+  padding-bottom: 3vw;
 }
 
 .historyEmpty {

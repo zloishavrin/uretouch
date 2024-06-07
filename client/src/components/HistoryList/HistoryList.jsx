@@ -14,7 +14,6 @@ export const HistoryList = () => {
     const fetchHistoryList = async () => {
       try {
         const data = await getHistoryList();
-        console.log(data);
         setHistory(data);
       } catch (e) {
         setError(e.message);
@@ -22,8 +21,11 @@ export const HistoryList = () => {
         setLoading(false);
       }
     };
-
     fetchHistoryList();
+    setInterval(fetchHistoryList, 5000)
+    return () => {
+      clearInterval(fetchHistoryList);
+    }
   }, []);
 
   if (isLoading) {
@@ -46,6 +48,7 @@ export const HistoryList = () => {
           imgOriginal={item.original}
           listImg={item.url}
           prompt={item.prompt}
+          status={item.status}
         />
       ))}
     </ul>

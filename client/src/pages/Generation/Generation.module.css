@@ -11,12 +11,12 @@
   margin-bottom: 2vw;
 }
 
-.dropzone{
+.dropzone {
   width: auto;
   height: auto;
 }
 
-.generationLoadContainer{
+.generationLoadContainer {
   cursor: pointer;
   border: 0.4vw solid #181717;
   border-style: dashed;
@@ -44,6 +44,7 @@
   padding: 1vw;
   border-radius: 0.6vw;
   font-size: 1.25vw;
+  margin-bottom: 2vw;
 }
 
 .generationModeList {
@@ -61,7 +62,8 @@
   border-radius: 0.6vw;
 }
 
-.generationBtn:first-of-type{
+.generationBtn:first-of-type {
+  position: relative;
   align-self: flex-end;
   margin-top: 1vw;
 }
@@ -71,7 +73,7 @@
   background-color: #fff;
 }
 
-.generationTextArea{
+.generationTextArea {
   resize: none;
   width: 53vw;
   height: 15vh;
@@ -88,10 +90,16 @@
   justify-content: center;
 }
 
-.generationImgLoad{
+.generationImgLoad {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   width: 50vw;
   height: 50vh;
+}
+
+.generationListContainer {
+  position: relative;
+  height: 25vw;
+  margin-bottom: 10vw;
 }
