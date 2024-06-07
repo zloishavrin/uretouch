@@ -11,16 +11,19 @@ import { Profile } from "../pages/Profile/Profile";
 import { Generation } from "../pages/Generation/Generation";
 import { Hisrory } from "../pages/History/History";
 import { Header } from "../components/Header/Header";
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { useLocation } from "react-router-dom";
-import './App.css';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./App.css";
 
 const App = observer(() => {
   const { authStore } = useContext(Context);
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("refreshToken")) {
       authStore.checkAuth();
+    } else {
+      navigate("/start");
     }
   }, []);
 
@@ -57,11 +60,15 @@ const App = observer(() => {
               />
               <Route
                 path="/registration"
-                element={authStore.token ? <Navigate to="/user" /> : <Registration />}
+                element={
+                  authStore.token ? <Navigate to="/user" /> : <Registration />
+                }
               />
               <Route
                 path="/auth"
-                element={authStore.token ? <Navigate to="/user" /> : <AuthLink />}
+                element={
+                  authStore.token ? <Navigate to="/user" /> : <AuthLink />
+                }
               />
             </Routes>
           </CSSTransition>

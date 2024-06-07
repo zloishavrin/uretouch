@@ -18,8 +18,8 @@ $authHost.interceptors.request.use((config) => {
 });
 
 $authHost.interceptors.response.use(
-  (config) => {
-    return config;
+  (response) => {
+    return response;
   },
   async (error) => {
     const originalRequest = error.config;
@@ -48,10 +48,8 @@ $authHost.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
         return $authHost(originalRequest);
       } catch (e) {
-        console.log("Not Authorized:", e);
-        if (e.response && e.response.data) {
-          
-        }
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         throw e;
       }
     }
