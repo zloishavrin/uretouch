@@ -36,6 +36,7 @@ docker-compose down
 |SMTP_USER|Пользователь для SMTP-сервиса|
 |SMTP_PASSWORD|Пароль пользователя SMTP-сервиса|
 |YANDEX_TRANSLATE_API_KEY|API-ключ для Яндекс.Translate|
+|BOT_TOKEN|API-ключ от телеграм-бота (BotFather)|
 
 Пример ENV-файла:
 

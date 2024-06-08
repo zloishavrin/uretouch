@@ -1,5 +1,6 @@
 const Router = require('express');
 const PrivateAuthMiddleware = require('../middlewares/privateAuth');
+const PublicAuthMiddleware = require('../middlewares/publicAuth');
 const generationController = require('../controllers/generation');
 const multer = require('multer');
 

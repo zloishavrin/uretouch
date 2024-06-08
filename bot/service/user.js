@@ -2,7 +2,7 @@ const User = require('../models/User');
 
 class UserSerivce {
 
-    async create(chatId) {
+    async createUser(chatId) {
         const user = await User.create({ chatId });
         return user;
     }
@@ -14,6 +14,16 @@ class UserSerivce {
 
     async changeStep(chatId, step)  {
         const user = await User.findOneAndUpdate({ chatId  }, { step: step });
+        return user;
+    }
+
+    async getPhoto(chatId)   {
+        const user = await User.findOne({ chatId });
+        return user.currentPhoto;
+    }
+
+    async setPhoto(chatId, photoId) {
+        const user = await User.findOneAndUpdate({ chatId }, { currentPhoto: photoId });
         return user;
     }
 
