@@ -25,7 +25,7 @@ internal object RootModule {
         return listOf(
             module {
                 factory { dependencies.settingsFactory }
-                factory { dependencies.settingsOpener }
+                factory { dependencies.platformOpener }
                 factory { dependencies.imageUtil }
                 single { Dispatchers.IO }
                 single { get<SettingsFactory>().createSettings() }

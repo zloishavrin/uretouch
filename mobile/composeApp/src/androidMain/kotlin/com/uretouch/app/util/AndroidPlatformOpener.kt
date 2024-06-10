@@ -5,11 +5,11 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 import android.provider.Settings
-import com.uretouch.common.core.util.SettingsOpener
+import com.uretouch.common.core.util.PlatformOpener
 
-internal class AndroidSettingsOpener(
+internal class AndroidPlatformOpener(
     private val application: Application,
-) : SettingsOpener {
+) : PlatformOpener {
 
     override fun settingsOpen() {
         val intent = Intent(
@@ -19,5 +19,17 @@ internal class AndroidSettingsOpener(
             it.addFlags(FLAG_ACTIVITY_NEW_TASK)
         }
         application.startActivity(intent)
+    }
+
+    override fun shareLink(link: String) {
+        val sendIntent: Intent = Intent(
+            Intent.ACTION_SEND,
+        ).apply {
+            putExtra(Intent.EXTRA_TEXT, link)
+            type = "text/plain"
+        }.also {
+            it.addFlags(FLAG_ACTIVITY_NEW_TASK)
+        }
+        application.startActivity(sendIntent)
     }
 }

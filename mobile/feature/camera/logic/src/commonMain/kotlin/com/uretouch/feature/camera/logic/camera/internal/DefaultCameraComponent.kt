@@ -7,7 +7,7 @@ import com.uretouch.common.core.decompose.cancelableCoroutineScope
 import com.uretouch.common.core.decompose.defaultClosableScope
 import com.uretouch.common.core.flow.AnyStateFlow
 import com.uretouch.common.core.flow.wrapToAny
-import com.uretouch.common.core.util.SettingsOpener
+import com.uretouch.common.core.util.PlatformOpener
 import com.uretouch.feature.camera.logic.camera.api.CameraComponent
 import com.uretouch.feature.camera.logic.camera.api.state.CameraUiState
 import com.uretouch.feature.camera.logic.camera.api.state.toUiState
@@ -35,7 +35,7 @@ internal class DefaultCameraComponent(
 
     private val scope by defaultClosableScope(rootScope = rootScope, modules = listOf(CameraModule.module))
 
-    private val settingsOpener = scope.get<SettingsOpener>()
+    private val platformOpener = scope.get<PlatformOpener>()
 
     private val initialState = CameraState.initial()
 
@@ -67,6 +67,6 @@ internal class DefaultCameraComponent(
     }
 
     override fun onOpenSettingsClick() {
-        settingsOpener.settingsOpen()
+        platformOpener.settingsOpen()
     }
 }

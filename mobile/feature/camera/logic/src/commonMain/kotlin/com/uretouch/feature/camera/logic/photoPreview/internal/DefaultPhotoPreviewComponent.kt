@@ -6,12 +6,15 @@ import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.uretouch.common.core.decompose.CancelableCoroutineScope
 import com.uretouch.common.core.decompose.cancelableCoroutineScope
 import com.uretouch.common.core.decompose.defaultClosableScope
+import com.uretouch.common.core.flow.AnyFlow
 import com.uretouch.common.core.flow.AnyStateFlow
 import com.uretouch.common.core.flow.wrapToAny
 import com.uretouch.feature.camera.logic.photoPreview.api.PhotoPreviewComponent
 import com.uretouch.feature.camera.logic.photoPreview.api.state.PhotoPreviewUiState
 import com.uretouch.feature.camera.logic.photoPreview.api.state.toUiState
 import com.uretouch.feature.camera.logic.photoPreview.internal.di.PhotoPreviewModule
+import com.uretouch.feature.camera.logic.photoPreview.internal.dispatcher.PhotoPreviewEvent
+import com.uretouch.feature.camera.logic.photoPreview.internal.dispatcher.PhotoPreviewEventDispatcher
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.PhotoPreviewFeature
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewOnBackClicked
 import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.actions.PhotoPreviewOnGenerationModeClicked
@@ -51,6 +54,12 @@ internal class DefaultPhotoPreviewComponent(
             started = SharingStarted.Eagerly,
             initialValue = initialState.toUiState()
         ).wrapToAny()
+
+    override val showMessageFlow: AnyFlow<Pair<String, Boolean>> = scope.get<PhotoPreviewEventDispatcher>()
+        .observeEvents()
+        .filterIsInstance<PhotoPreviewEvent.ShowMessage>()
+        .map { it.text to it.isError }
+        .wrapToAny()
 
     init {
         backHandler.register(BackCallback { onBackClick() })

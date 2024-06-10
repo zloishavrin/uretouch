@@ -10,4 +10,5 @@ interface GenerationDetailComponent {
     fun onRefresh()
     fun onDownloadGenerationClick(url: String)
     fun onDownloadAllGenerationsClick()
+    fun onShareClick(url: String)
 }

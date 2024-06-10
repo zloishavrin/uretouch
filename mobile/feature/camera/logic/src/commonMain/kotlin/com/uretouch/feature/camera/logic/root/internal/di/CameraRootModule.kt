@@ -8,7 +8,7 @@ internal object CameraRootModule {
     fun create(dependencies: CameraRootDependencies): List<Module> {
         return listOf(
             module {
-                factory { dependencies.settingsOpener }
+                factory { dependencies.platformOpener }
                 factory { dependencies.generationsInteractor }
                 factory { dependencies.imageUtil }
             }

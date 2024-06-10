@@ -4,14 +4,14 @@ import com.uretouch.feature.camera.logic.photoPreview.internal.fsm.state.PhotoPr
 import ru.kontur.mobile.visualfsm.Edge
 import ru.kontur.mobile.visualfsm.Transition
 
-internal class PhotoPreviewHandlePhotoUploadSuccess : BasePhotoPreviewAction() {
+internal class PhotoPreviewHandlePhotoUploadFail : BasePhotoPreviewAction() {
 
-    @Edge("PhotoUploadSuccess")
+    @Edge("PhotoUploadFail")
     inner class Blank : Transition<PhotoPreviewState.AsyncWorkerState.UploadingPhoto, PhotoPreviewState.Initial>() {
         override fun transform(state: PhotoPreviewState.AsyncWorkerState.UploadingPhoto): PhotoPreviewState.Initial {
             return PhotoPreviewState.Initial(
                 photoPath = state.photoPath,
-                prompt = if (state.selectedMode != null) state.prompt else "",
+                prompt = state.prompt,
                 generationModes = state.generationModes,
                 selectedMode = state.selectedMode
             )

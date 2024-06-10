@@ -1,5 +1,6 @@
 package com.uretouch.common.core.util
 
-interface SettingsOpener {
+interface PlatformOpener {
     fun settingsOpen()
+    fun shareLink(link: String)
 }

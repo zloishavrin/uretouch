@@ -73,8 +73,6 @@ internal fun HistoryScreen(
                 }
             }
         }
-
-
     }
 }
 

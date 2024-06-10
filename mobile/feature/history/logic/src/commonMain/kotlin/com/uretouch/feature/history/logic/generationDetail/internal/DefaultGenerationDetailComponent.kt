@@ -7,6 +7,7 @@ import com.uretouch.common.core.decompose.cancelableCoroutineScope
 import com.uretouch.common.core.decompose.defaultClosableScope
 import com.uretouch.common.core.flow.AnyStateFlow
 import com.uretouch.common.core.flow.wrapToAny
+import com.uretouch.common.core.util.PlatformOpener
 import com.uretouch.feature.history.logic.generationDetail.api.GenerationDetailComponent
 import com.uretouch.feature.history.logic.generationDetail.api.state.GenerationDetailUiState
 import com.uretouch.feature.history.logic.generationDetail.api.state.toUiState
@@ -61,5 +62,9 @@ internal class DefaultGenerationDetailComponent(
 
     override fun onDownloadAllGenerationsClick() {
         feature.proceed(GenerationDetailOnDownloadAllGenerations())
+    }
+
+    override fun onShareClick(url: String) {
+        scope.get<PlatformOpener>().shareLink(link = url)
     }
 }

@@ -42,7 +42,7 @@ internal class DefaultTabNavigationRootComponent(
                 component = CameraRootComponentFactory.create(
                     componentContext = componentContext,
                     dependencies = CameraRootDependencies(
-                        settingsOpener = scope.get(),
+                        platformOpener = scope.get(),
                         generationsInteractor = scope.get(),
                         imageUtil = scope.get(),
                     )

@@ -2,23 +2,27 @@ package com.uretouch.feature.history.ui
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -79,41 +83,53 @@ fun GenerationDetailScreen(
                 }
 
                 is GenerationDetailUiState.Loaded -> {
-                    Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
+                    Column(modifier = Modifier.fillMaxSize()) {
                         Text(
-                            modifier = Modifier.padding(vertical = 8.dp),
+                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                             text = "Запрос: ${state.generationUi.prompt}"
                         )
-                        Column(
-                            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        LazyVerticalGrid(
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            columns = GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            state.generationUi.generationUrls.forEach {
+                            items(state.generationUi.generationUrls) {
                                 Box(
-                                    modifier = Modifier.animateContentSize().fillMaxWidth()
+                                    modifier = Modifier.animateContentSize()
                                 ) {
                                     AsyncImage(
+                                        modifier = Modifier.fillMaxWidth(),
                                         model = it,
                                         contentDescription = null,
                                     )
 
-                                    Row(
-                                        modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 4.dp, end = 4.dp)
+                                    Column(
+                                        modifier = Modifier.align(Alignment.BottomEnd)
                                     ) {
-                                        IconButton(
-                                            modifier = Modifier.clip(CircleShape).background(AppColors.Yellow),
-                                            onClick = { component.onDownloadGenerationClick(it) }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.NetDownload24Solid,
-                                                contentDescription = null,
-                                                tint = AppColors.White
-                                            )
-                                        }
+                                        Icon(
+                                            modifier = Modifier
+                                                .clip(CircleShape)
+                                                .background(AppColors.Yellow)
+                                                .clickable { component.onShareClick(it) }
+                                                .padding(8.dp),
+                                            imageVector = Icons.Default.Share,
+                                            contentDescription = null,
+                                            tint = AppColors.White
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Icon(
+                                            modifier = Modifier
+                                                .clip(CircleShape)
+                                                .background(AppColors.Yellow)
+                                                .clickable { component.onDownloadGenerationClick(it) }
+                                                .padding(8.dp),
+                                            imageVector = Icons.NetDownload24Solid,
+                                            contentDescription = null,
+                                            tint = AppColors.White
+                                        )
                                     }
                                 }
-
-                                Spacer(modifier = Modifier.height(8.dp))
                             }
                         }
                     }
@@ -124,7 +140,5 @@ fun GenerationDetailScreen(
                 }
             }
         }
-
-
     }
 }
