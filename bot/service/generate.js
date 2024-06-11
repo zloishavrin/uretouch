@@ -9,11 +9,22 @@ class GenerateService {
             "https://uretouch.shaligula.ru/api/generation/public/mods", {
                 headers: { 
                     "Authorization": `Bearer ${process.env.BOT_SERVICE_API_KEY}`
-                } 
+                }
             }
         );
         return response.data;
     };
+
+    async genGeneration(id) {
+        const response = await axios.get(
+            `https://uretouch.shaligula.ru/api/user/generation/public/${id}`, {
+                headers: {
+                    "Authorization": `Bearer ${process.env.BOT_SERVICE_API_KEY}`
+                }
+            }
+        );
+        return response.data;
+    }
 
     async startGeneration(prompt, mode, fileUrl) {
         const photoResponse = await axios({

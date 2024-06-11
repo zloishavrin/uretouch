@@ -39,7 +39,6 @@ const startBot = () => {
             
             const mods = await generateService.getMods();
             const buttons = mods.map(mode => [{ text: mode.name, callback_data: `mode_${mode._id}`}]);
-            buttons.push([{ text: 'Ручной режим', callback_data: `mode_custom` }]);
 
             await bot.sendPhoto(chatId, photoId, {
                 parse_mode: 'HTML',
@@ -63,19 +62,33 @@ const startBot = () => {
                 await userService.createUser(chatId);
             }
 
-            if(callbackData == 'mode_custom') {
-                const photoId  = msg.message.photo[msg.message.photo.length-1].file_id;
-                await userService.setPhoto(chatId, photoId);
-                await userService.changeStep(chatId, 'prompt');
-                await bot.sendMessage(chatId, "Введите промпт");
-            }
-            else if(callbackData.startsWith('mode_')) {
+            if(callbackData.startsWith('mode_')) {
                 const modeId  = callbackData.replace('mode_', '');
                 const photoId  = msg.message.photo[msg.message.photo.length-1].file_id;
                 const photoUrl = await bot.getFileLink(photoId);
                 const generationData = await generateService.startGeneration(null, modeId, photoUrl);
-                console.log(generationData);
-                //await bot.sendMessage(chatId, generationData);
+                const waitMessage = await bot.sendMessage(chatId, 'Пожалуйста, подождите...');
+                while(true) {
+                    const generation = await generateService.genGeneration(generationData);
+                    if(generation.status == "completed") {
+                        const photoGroup = [];
+                        for(let index = 0; index < generation.url.length; index++) {
+                            photoGroup.push({
+                                type: "photo",
+                                media: generation.url[index],
+                            })
+                        }
+                        await bot.deleteMessage(chatId, waitMessage.message_id);
+                        await bot.sendMediaGroup(chatId, photoGroup);
+                        break;
+                    }
+                    else if(generation.status == "failed") {
+                        await bot.deleteMessage(chatId, waitMessage.message_id);
+                        await bot.sendMessage(chatId, 'Произошла ошибка при генерации!');
+                        break;
+                    }
+                    await sleep(10000);
+                }
             }
         }
         catch(error) {
@@ -83,6 +96,10 @@ const startBot = () => {
         }
     });
 
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = startBot;
