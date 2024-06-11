@@ -11,7 +11,6 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 export const Slider = ({ listImg, status, id }) => {
 
-  console.log(id);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const copyTextToClipboard = async (text) => {

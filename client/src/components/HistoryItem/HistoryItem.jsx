@@ -10,11 +10,11 @@ export const HistoryItem = ({ imgOriginal, listImg, prompt, status }) => {
   const backgroundImg = {
     background: `url(${imgOriginal})`,
     backgroundRepeat: "no-repeat",
-    backgroundSize: "contain",
+    backgroundSize: "cover",
     backgroundPosition: "center",
   };
 
-  console.log(status);
+  console.log(listImg);
 
   if (status === "inProgress") {
     return (

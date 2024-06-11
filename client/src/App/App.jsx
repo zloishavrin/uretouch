@@ -22,6 +22,7 @@ const App = observer(() => {
   useEffect(() => {
     if (localStorage.getItem("refreshToken")) {
       authStore.checkAuth();
+      navigate("/history");
     } else {
       navigate("/start");
     }
@@ -52,22 +53,22 @@ const App = observer(() => {
               />
               <Route
                 path="/start"
-                element={authStore.token ? <Navigate to="/user" /> : <Start />}
+                element={authStore.token ? <Navigate to="/history" /> : <Start />}
               />
               <Route
                 path="/login"
-                element={authStore.token ? <Navigate to="/user" /> : <Login />}
+                element={authStore.token ? <Navigate to="/history" /> : <Login />}
               />
               <Route
                 path="/registration"
                 element={
-                  authStore.token ? <Navigate to="/user" /> : <Registration />
+                  authStore.token ? <Navigate to="/history" /> : <Registration />
                 }
               />
               <Route
                 path="/auth"
                 element={
-                  authStore.token ? <Navigate to="/user" /> : <AuthLink />
+                  authStore.token ? <Navigate to="/history" /> : <AuthLink />
                 }
               />
             </Routes>

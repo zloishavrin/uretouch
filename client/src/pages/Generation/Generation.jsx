@@ -17,7 +17,6 @@ export const Generation = () => {
   const [typeMode, setTypeMode] = useState("");
   const [generationIds, setGenerationIdsList] = useState([]);
   const [generationList, setGenerationList] = useState([]);
-  const [isLoading, setLoading] = useState(false);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
@@ -67,7 +66,7 @@ export const Generation = () => {
         const data = await getGenerationMode();
         setModeList(data);
       } catch (e) {
-        console.error(e.message);
+        console.log(e.message);
       }
     };
 
@@ -90,12 +89,20 @@ export const Generation = () => {
     formData.append("mode", typeMode);
     formData.append("prompt", customPrompt);
 
+    const tempId = Date.now();
+
+    const newItem = { id: tempId, url: [], status: "inProgress" };
+    setGenerationList((prev) => [...prev, newItem]);
+
     try {
       const response = await $authHost.post("/generation/private", formData);
       const newGenerationId = response.data.generation_id;
-      setLoading(true);
-      console.log(isLoading);
       setGenerationIdsList((prev) => [...prev, newGenerationId]);
+      setGenerationList((prev) =>
+        prev.map((item) =>
+          item.id === tempId ? { ...item, id: newGenerationId } : item
+        )
+      );
       setCustomPrompt("");
       setTypeMode("");
       setActiveBtn(null);
@@ -109,12 +116,15 @@ export const Generation = () => {
     try {
       if (generationIds.length > 0) {
         const data = await getGeneration(generationIds.join(","));
-        setGenerationList(data);
+        setGenerationList((prev) =>
+          prev.map((item) => {
+            const newItem = data.find((d) => d._id === item.id);
+            return newItem ? { ...item, ...newItem } : item;
+          })
+        );
       }
     } catch (e) {
-      console.error(e.message);
-    } finally {
-      setLoading(false);
+      console.log(e.message);
     }
   }, [generationIds]);
 
@@ -182,12 +192,8 @@ export const Generation = () => {
         </div>
         <div>
           {generationList.map((item) => (
-            <div className={styles.generationListContainer} key={item._id}>
-              {isLoading ? (
-                <span className="loader"></span>
-              ) : (
-                <Slider listImg={item.url} status={item.status} />
-              )}
+            <div className={styles.generationListContainer} key={item.id}>
+              <Slider listImg={item.url} status={item.status} />
             </div>
           ))}
         </div>

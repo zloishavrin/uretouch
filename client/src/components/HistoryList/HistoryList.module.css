@@ -1,9 +1,9 @@
 .historyList {
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 18vw);
-  gap: 2vw;
+  grid-template-columns: repeat(4, 20vw);
   padding-bottom: 3vw;
+  gap: 2vw;
 }
 
 .historyEmpty {

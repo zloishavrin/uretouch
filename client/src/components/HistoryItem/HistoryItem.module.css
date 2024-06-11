@@ -2,15 +2,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18vw;
-  height: 18vh;
+  width: 20vw;
+  height: 35vh;
 }
 
 .historyItemLoad{
   align-items: center;
   justify-content: center;
-  width: 18vw;
-  height: 18vh;
+  width: 20vw;
+  height: 20vh;
   position: relative;
   opacity: 0.4;
 }
@@ -44,4 +44,5 @@
   border-radius: 0.7vw;
   width: 100%;
   height: 100%;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 2px 20px 0px;
 }
