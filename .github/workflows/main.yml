@@ -27,6 +27,17 @@
            key: ${{ runner.os }}-buildx-${{ github.sha }}
            restore-keys: |
              ${{ runner.os }}-buildx-
+             
+       - name: Set environment variables
+         run: |
+           echo "MONGO_ROOT_USER=your_mongo_root_user" >> $GITHUB_ENV
+           echo "MONGO_ROOT_PASSWORD=your_mongo_root_password" >> $GITHUB_ENV
+           echo "MONGOEXPRESS_LOGIN=your_mongoexpress_login" >> $GITHUB_ENV
+           echo "MONGOEXPRESS_PASSWORD=your_mongoexpress_password" >> $GITHUB_ENV
+   
+       - name: Create .env file
+         run: |
+           echo "SOME_ENV_VAR=value" >> .env
 
        - name: Log in to DockerHub
          run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
