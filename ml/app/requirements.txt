@@ -1,2 +1,8 @@
 fastapi
 uvicorn
+Pillow
+diffusers
+segment-anything
+torch
+torchvision
+torchaudio
