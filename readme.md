@@ -1,6 +1,60 @@
 # U-Retouch
 
-Платформа для визуализации товара на релевантных фонах
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1D3kZx2IyjKyCrrd9yjBT6X5NuF_p8nse?usp=drive_link)
+
+Платформа для визуализации товара на релевантных фонах.
+
+Доступна [здесь](https://uretouch.shaligula.ru) до тех пор, пока работает Yandex Cloud.
+
+Docker-Compose Build Test - [здесь](https://github.com/zloishavrin/uretouch/actions).
+
+# Оглавление
+
+- [U-Retouch](#u-retouch)
+  - [Нейронная сеть](#нейронная-сеть)
+    - [YOLOv5](#yolov5)
+    - [SAM](#sam)
+    - [Stable Diffusion](#stable-diffusion)
+  - [Описание платформы](#описание-платформы)
+  - [Запуск платформы](#запуск-платформы)
+    - [Локальные переменные](#локальные-переменные)
+    - [ML](#ml)
+    - [Frontend](#frontend)
+    - [Мобильное приложение](#мобильное-приложение)
+    - [Backend](#backend)
+    - [Документация](#документация)
+    - [Панель управления базой данных](#панель-управления-базой-данных)
+    - [TG-Bot](#tg-bot)
+
+## Нейронная сеть
+
+Для генерации итогового изображения используется три модели нейронных сетей. 
+
+Готовый Google Collab с генерацией - [здесь](https://colab.research.google.com/drive/1D3kZx2IyjKyCrrd9yjBT6X5NuF_p8nse?usp=drive_link).
+
+### YOLOv5
+
+![Alt text](readme/telegram-cloud-photo-size-2-5424815545259252017-w.jpg)
+
+YOLOv5 используется для выделения BOX-рамки с предметами мебели на фото.
+
+### SAM
+
+![Alt text](readme/telegram-cloud-photo-size-2-5427313932030304335-y.jpg)
+
+SAM используется для сегментации и выделения предмета мебели. Для этой задачи полезно то, что на предыдущем шаге YOLOv5 выделяет BOX-рамки с предметами мебели на фото - так лучше проходит сегментация.
+
+### Stable Diffusion
+
+![Alt text](readme/telegram-cloud-photo-size-2-5427067345072937204-x.jpg)
+
+В Stable Diffusion передается маска созданная с помощью сегментации (SAM) и заготовленные промпты (готовые режимы) или свой кастомный промпт. Stable Diffusion генерирует фон для изображения.
+
+## Описание платформы
+
+Веб-платформа написана на стеке MERN (MongoDB + ExpressJS + ReactJS + NodeJS). Написана система аутентификации, которая использует JWT-аутинтификацию (Access и Refresh токены). Затем готовый билд клиентской части хостится на NGINX-сервере. Регистрация в веб-платформе происходит через подтверждение аккаунта по почте (настроен SMTP).
+
+Разработано мобильное приложение на Kotlin, которое работает с Backend-частью веб-платформы. Отличительной особенностью мобильного приложения является возможность сразу сфотографировать мебель прямо в приложении и сразу же отправить на генерацию.
 
 ## Запуск платформы
 
@@ -52,29 +106,33 @@ JWT_REFRESH_SECRET='example2'
 SMTP_SERVICE='gmail'
 SMTP_USER='example@gmail.com'
 SMTP_PASSWORD='exam plee xamp leex'
+YANDEX_TRANSLATE_API_KEY='exam plee xamp leex'
+BOT_TOKEN='exam plee xamp leex'
 ```
 
-## Frontend
+### ML
+
+ML-сервис использует FastAPI для создания API, к которому идет запрос с **Backend**. Может запускаться и отдельно, и на сервере с Backend (прописан Dockerfile).
+
+В данный момент хостится на Yandex Cloud отдельно от Backend+Nginx.
+
+### Frontend
 
 React-проект находится в директиве **client** и запускается на порту 3000 на localhost.
 
 Для установки зависимостей необходимо прописать зависимость в package.json и перезапустить Docker-композицию. Устанавливать в node_modules ничего не надо.
 
-Зависимости, которые есть в проекте на данный момент:
+Чтобы посмотреть, как будет выглядеть готовый билд, можно закинуть файлы билда в **static_client** и открыть localhost на HTTP/HTTPS порту.
 
-|Зависимость|Назначение|
-|-|-|
-|axios|Запросы|
-|mobx|Стейт-менеджер|
-|mobx-react-lite|Работа со стейт-менеджером из React|
-|react-hook-form|Работа с формами|
-|react-router-dom|Работа с роутингом|
+### Мобильное приложение
 
-Чтобы посмотреть, как будет выглядеть готовый билд, можно закинуть файлы билда в **static_client** и открыть localhost на HTTP или HTTPS порту.
+Более подробная инструкция о билде мобильного приложения [здесь](https://github.com/zloishavrin/uretouch/blob/master/mobile/README.MD).
 
-## Backend
+### Backend
 
 Находится в директиве **backend** и запускается на порту 3001 на localhost.
+
+Частично покрыт тестами на Jest.
 
 К серверу можно обратиться через **localhost/api/** по HTTP-порту.
 
@@ -91,16 +149,56 @@ axios.post('http://localhost/api/auth/login')
 }, []);
 ```
 
-### Спецификация
+### Документация
 
-Спецификацию можно открыть по localhost/swagger/ по HTTP или HTTPS-порту.
+Документация можно открыть по localhost/swagger/ по HTTP или HTTPS-порту при запуске Docker-композиции.
 
-Также спецификация доступна [здесь](https://uretouch.shaligula.ru/swagger/).
+Также документация доступна [здесь](https://uretouch.shaligula.ru/swagger/).
 
-## Панель управления базой данных
+### Панель управления базой данных
 
 Можно посмотреть, что происходит в базе данных в панели управления. Она доступна на localhost на порту **8888**.
 
-### Доступ к Docker Hub
+### TG-Bot
 
-Для решения проблемы блокировки Docker Hub в России следует изменить daemon.json файл докера. Пример настройки зеркала в файле daemon.json
+Телеграм-бот находится в папке **bot** и является примером интеграции с публичным API, который предоставляет **Backend**. Каждому пользователю в веб-версии приложения предоставляется API-ключ, который затем можно использовать для доступа к генерации.
+
+Пример интеграции с публичным API:
+```javascript
+async startGeneration(prompt, mode, fileUrl) {
+    const photoResponse = await axios({
+        url: fileUrl,
+        responseType: 'stream'
+    });
+
+    const localFilePath = './photo/photo.jpg';
+    const writer = fs.createWriteStream(localFilePath);
+
+    photoResponse.data.pipe(writer);
+
+    await new Promise((resolve, reject) => {
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+    });
+
+    const form = new FormData();
+    if (prompt) {
+        form.append('prompt', prompt);
+    } else if (mode) {
+        form.append('mode', mode);
+    }
+    form.append('image', fs.createReadStream(localFilePath));
+
+    const response = await axios.request({
+        method: 'POST',
+        url: 'https://uretouch.shaligula.ru/api/generation/public',
+        headers: {
+            "Authorization": `Bearer ${process.env.BOT_SERVICE_API_KEY}`,
+            ...form.getHeaders()
+        },
+        data: form
+    });
+    fs.unlinkSync(localFilePath);
+    return response.data.generation_id;
+}
+```
