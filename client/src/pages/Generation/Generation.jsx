@@ -129,8 +129,8 @@ export const Generation = () => {
   }, [generationIds]);
 
   useEffect(() => {
-    const intervalId = setInterval(fetchGeneration, 5000);
-    return () => clearInterval(intervalId);
+    const interval = setInterval(fetchGeneration, 5000);
+    return () => clearInterval(interval);
   }, [fetchGeneration]);
 
   return (

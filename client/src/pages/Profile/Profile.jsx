@@ -20,7 +20,7 @@ export const Profile = observer(() => {
         const data = await getInfoUser();
         setUser(data);
       } catch (e) {
-        setError(e.message);
+        setError(e.response.data.message);
       }
     };
     fetchUser();
@@ -36,7 +36,7 @@ export const Profile = observer(() => {
   };
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className={styles.error}>{error}</div>;
   }
 
   return (

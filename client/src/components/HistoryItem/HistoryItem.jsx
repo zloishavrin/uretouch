@@ -14,8 +14,6 @@ export const HistoryItem = ({ imgOriginal, listImg, prompt, status }) => {
     backgroundPosition: "center",
   };
 
-  console.log(listImg);
-
   if (status === "inProgress") {
     return (
       <li className={styles.historyItemLoad}>

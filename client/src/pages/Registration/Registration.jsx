@@ -60,7 +60,13 @@ export const Registration = observer(() => {
           </div>
           <div className={styles.inputContainer}>
             <input
-              {...register("password", { required: "Введите пароль" })}
+              {...register("password", {
+                required: "Введите пароль",
+                minLength: {
+                  value: 6,
+                  message: "Пароль должен содержать не менее 6 символов",
+                },
+              })}
               className={styles.registInput}
               type="password"
               placeholder="Пароль"

@@ -45,3 +45,11 @@
 .apiKeyInvisible:hover {
   color: rgb(255, 196, 44);
 }
+
+.error {
+  position: absolute;
+  font-size: 1.75vw;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+}

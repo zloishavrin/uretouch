@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { getHistoryList } from "../../service/UserService";
 import styles from "./HistoryList.module.css";
 import { HistoryItem } from "../HistoryItem/HistoryItem";
-import { Link } from  "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const HistoryList = () => {
   const [history, setHistory] = useState([]);
@@ -22,10 +22,10 @@ export const HistoryList = () => {
       }
     };
     fetchHistoryList();
-    setInterval(fetchHistoryList, 5000)
+    const interval = setInterval(fetchHistoryList, 5000);
     return () => {
-      clearInterval(fetchHistoryList);
-    }
+      clearInterval(interval);
+    };
   }, []);
 
   if (isLoading) {
@@ -35,7 +35,10 @@ export const HistoryList = () => {
   if (history.length === 0) {
     return (
       <div className={styles.historyEmpty}>
-        Пока что у Вас нет истории генераций. <Link className={styles.historyEmptyLink} to="/generation">Перейдите к генерации.</Link>
+        Пока что у Вас нет истории генераций.{" "}
+        <Link className={styles.historyEmptyLink} to="/generation">
+          Перейдите к генерации.
+        </Link>
       </div>
     );
   }

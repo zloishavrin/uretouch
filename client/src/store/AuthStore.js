@@ -46,6 +46,8 @@ export default class AuthStore {
       this.setAuth(data.refreshToken);
     } catch (e) {
       console.log(e.response?.data?.message);
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessToken");
     } finally {
       this.setLoading(false);
     }
