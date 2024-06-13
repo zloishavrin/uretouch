@@ -9,6 +9,8 @@ class generationController {
             const userData = req.user;
             const mode = req.body.mode;
             const file = req.file;
+            const imageName = req.image;
+            console.log(imageName);
             let prompt = req.body.prompt;
 
             if(!file) {

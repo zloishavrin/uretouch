@@ -1,30 +1,23 @@
-const Router = require('express');
+const express = require('express');
 const PrivateAuthMiddleware = require('../middlewares/privateAuth');
 const PublicAuthMiddleware = require('../middlewares/publicAuth');
 const generationController = require('../controllers/generation');
-const multer = require('multer');
+const { save, saveFileNameMiddleware } = require('../middlewares/saveFile');
 
-const generationRouter = Router();
-
-const storage = multer.memoryStorage();
-const upload = multer({ 
-    storage: storage,
-    limits: {
-        fileSize: 10 * 1024 * 1024,
-        fieldSize: 10 * 1024 * 1024
-    }
-});
+const generationRouter = express.Router();
 
 generationRouter.post(
     '/private',
-    upload.single('image'),
+    save.single('image'), // Используем только save.single для загрузки и сохранения
+    saveFileNameMiddleware,
     PrivateAuthMiddleware,
     generationController.create
 );
 
 generationRouter.post(
     '/public',
-    upload.single('image'),
+    save.single('image'), // Используем только save.single для загрузки и сохранения
+    saveFileNameMiddleware,
     PublicAuthMiddleware,
     generationController.create
 );
@@ -33,7 +26,7 @@ generationRouter.get(
     '/private/mods',
     PrivateAuthMiddleware,
     generationController.getMods
-)
+);
 
 generationRouter.get(
     '/public/mods',

@@ -47,6 +47,19 @@ services:
       - backend
     command: npm run start
 
+  bot:
+    build: ./bot
+    ports:
+      - "3008:3008"
+    depends_on:
+      - mongo
+    volumes:
+      - ./bot:/usr/src/bot
+      - /usr/src/bot/node_modules
+    env_file:
+      - ./.env
+    command: npm run dev
+
   nginx:
     image: nginx:latest
     ports:

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors  = require('cors');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const generationRouter = require('./routers/generation');
 const authentificationRouter = require('./routers/authentification');
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use('/api/auth', authentificationRouter);
 app.use('/api/generation', generationRouter);
 app.use('/api/user', userRouter);
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use(errorMiddleware);
 
