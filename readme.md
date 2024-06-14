@@ -1,6 +1,6 @@
 # U-Retouch
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1D3kZx2IyjKyCrrd9yjBT6X5NuF_p8nse?usp=drive_link)
+[![Open In Colab]([https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/file/d/1ku-F_2BHtlg9ZDVGXyMSgLa9ucnyOVfZ/view?usp=sharing)
 
 Платформа для визуализации товара на релевантных фонах.
 
@@ -30,7 +30,7 @@ Docker-Compose Build Test - [здесь](https://github.com/zloishavrin/uretouch
 
 Для генерации итогового изображения используется три модели нейронных сетей. 
 
-Готовый Google Collab с генерацией - [здесь](https://colab.research.google.com/drive/1D3kZx2IyjKyCrrd9yjBT6X5NuF_p8nse?usp=drive_link).
+Готовый Google Collab с генерацией - [здесь](https://drive.google.com/file/d/1ku-F_2BHtlg9ZDVGXyMSgLa9ucnyOVfZ/view?usp=sharing).
 
 ### YOLOv5
 
