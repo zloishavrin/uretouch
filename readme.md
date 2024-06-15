@@ -4,7 +4,7 @@
 
 Платформа для визуализации товара на релевантных фонах.
 
-Доступна [здесь](https://uretouch.shaligula.ru) до тех пор, пока работает Yandex Cloud.
+Доступна [здесь](https://uretouch.shaligula.ru) до тех пор, пока работает Yandex Cloud. Также доступен [телеграм-бот](t.me/uretouchbot).
 
 Docker-Compose Build Test - [здесь](https://github.com/zloishavrin/uretouch/actions).
 
